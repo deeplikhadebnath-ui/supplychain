@@ -22,12 +22,12 @@ st.set_page_config(
 # ------------------------------------------------------------
 # LAVENDER COLOR PALETTE
 # ------------------------------------------------------------
-LAV_1 = "#a78bfa"   # primary lavender
-LAV_2 = "#c4b5fd"   # soft lavender
-LAV_3 = "#7c3aed"   # deep violet (accent / totals)
-LAV_4 = "#ede9fe"   # pale lavender (highlights)
-LAV_5 = "#d8b4fe"   # pink-lavender
-LAV_6 = "#5b21b6"   # darkest violet
+LAV_1 = "#a78bfa"  # primary lavender
+LAV_2 = "#c4b5fd"  # soft lavender
+LAV_3 = "#7c3aed"  # deep violet (accent / totals)
+LAV_4 = "#ede9fe"  # pale lavender (highlights)
+LAV_5 = "#d8b4fe"  # pink-lavender
+LAV_6 = "#5b21b6"  # darkest violet
 LAV_WARN = "#f0abfc"  # warm pink-magenta for warnings/negatives
 
 LAVENDER_SEQUENCE = [LAV_1, LAV_2, LAV_3, LAV_5, LAV_6, "#ddd6fe", "#8b5cf6", "#f0abfc"]
@@ -40,19 +40,27 @@ DB_NAME = "supply_chain_intelligence.db"
 
 
 def find_db_file():
-    """Locate database/supply_chain_intelligence.db wherever this file is saved.
-
-    Order: 1) env var SUPPLY_CHAIN_DB (full path)  2) this script's folder and all
-    its parents  3) the current working folder and all its parents.
-    """
+    """Locate the database file without requiring a strict 'database' folder."""
     env_path = os.environ.get("SUPPLY_CHAIN_DB")
     if env_path and Path(env_path).is_file():
         return Path(env_path)
-    for start in (Path(__file__).resolve().parent, Path.cwd().resolve()):
-        for folder in (start, *start.parents):
-            candidate = folder / "database" / DB_NAME
-            if candidate.is_file():
-                return candidate
+
+    script_dir = Path(__file__).resolve().parent
+    cwd = Path.cwd().resolve()
+
+    # Check current directory, script directory, and common subfolders
+    candidates = [
+        cwd / DB_NAME,
+        script_dir / DB_NAME,
+        cwd / "database" / DB_NAME,
+        script_dir / "database" / DB_NAME,
+        script_dir.parent / "database" / DB_NAME
+    ]
+
+    for candidate in candidates:
+        if candidate.is_file():
+            return candidate
+
     return None
 
 
@@ -150,13 +158,9 @@ footer { visibility: hidden; }
 </style>
 """, unsafe_allow_html=True)
 
+
 # ------------------------------------------------------------
 # MASTER GRANULAR DATA
-# Every chart on every page is computed from these two tables
-# (order line items + inventory records), so every sidebar filter
-# (Category, Supplier, Warehouse, Segment, Year) affects every
-# chart consistently. Pre-aggregated summary views are not used
-# for anything that needs to respond to filters.
 # ------------------------------------------------------------
 @st.cache_data(ttl=600)
 def load_master():
@@ -170,8 +174,11 @@ def load_master():
             """, con)
         dim_c = pd.read_sql_query("SELECT customer_id, segment, country AS customer_country FROM dim_customer", con)
         dim_w = pd.read_sql_query("SELECT warehouse_id, warehouse_name FROM dim_warehouse", con)
-        dim_s = pd.read_sql_query("SELECT supplier_id, supplier_name, rating AS supplier_rating, country AS supplier_country FROM dim_supplier", con)
-        dim_p = pd.read_sql_query("SELECT product_id, supplier_id AS p_supplier_id, supplier_name AS p_supplier_name FROM dim_product", con)
+        dim_s = pd.read_sql_query(
+            "SELECT supplier_id, supplier_name, rating AS supplier_rating, country AS supplier_country FROM dim_supplier",
+            con)
+        dim_p = pd.read_sql_query(
+            "SELECT product_id, supplier_id AS p_supplier_id, supplier_name AS p_supplier_name FROM dim_product", con)
         inv = pd.read_sql_query(
             "SELECT warehouse_id, product_id, warehouse_name, category, stock_quantity, reorder_level, stock_status FROM fact_inventory",
             con)
@@ -193,12 +200,11 @@ def load_master():
 
     return items, inv, ship, order_meta
 
+
 if DB_FILE is None:
-    st.error(f"❌ Database file not found: database/{DB_NAME}")
+    st.error(f"❌ Database file not found: {DB_NAME}")
     st.info(
-        "Save this file inside your project (e.g. <project>/dashboard/) so that "
-        f"<project>/database/{DB_NAME} exists, then run from the project folder:\n\n"
-        "streamlit run dashboard/supply_chain_dashboard_final.py"
+        f"Please ensure **{DB_NAME}** is saved in the exact same folder as this Python script, then run the dashboard again."
     )
     st.stop()
 
@@ -210,31 +216,28 @@ except Exception as e:
 
 # ------------------------------------------------------------
 # DATA QUALITY CORRECTION: true cut-off month
-# A small number of stray, far-future order/shipment records skew
-# trend charts and averages if used as-is. The true last "normal"
-# month of activity is detected directly from order volume.
 # ------------------------------------------------------------
 _order_dates = items.dropna(subset=["order_date"]).drop_duplicates("order_id")["order_date"]
 _monthly_counts = _order_dates.groupby(_order_dates.dt.to_period("M")).size()
 if len(_monthly_counts):
     _threshold = max(_monthly_counts.median() * 0.25, 20)
     _normal_months = _monthly_counts[_monthly_counts >= _threshold]
-    CUTOFF_DATE = _normal_months.index.max().to_timestamp(how="end").normalize() if len(_normal_months) else _order_dates.max()
+    CUTOFF_DATE = _normal_months.index.max().to_timestamp(how="end").normalize() if len(
+        _normal_months) else _order_dates.max()
 else:
     CUTOFF_DATE = _order_dates.max()
 
-# Global (unfiltered) per-product averages, used as fixed benchmarks
-# when classifying "Investigation Priorities" so the bar doesn't move
-# just because a filter narrows the product list.
 _prod_all = items.groupby(["product_id"]).agg(
     net_sales=("net_line_amount", "sum"),
     units_sold=("quantity", lambda x: x[items.loc[x.index, "transaction_type"] == "Sale"].sum()),
 ).reset_index()
 _returned_all = items[items["transaction_type"] == "Return / Reversal"].groupby("product_id")["quantity"].sum().abs()
 _prod_all["units_returned"] = _prod_all["product_id"].map(_returned_all).fillna(0)
-_prod_all["return_rate"] = np.where(_prod_all["units_sold"] > 0, _prod_all["units_returned"] / _prod_all["units_sold"], 0)
+_prod_all["return_rate"] = np.where(_prod_all["units_sold"] > 0, _prod_all["units_returned"] / _prod_all["units_sold"],
+                                    0)
 GLOBAL_AVG_RETURN_RATE = _prod_all["return_rate"].mean()
 GLOBAL_AVG_NET_SALES = _prod_all["net_sales"].mean()
+
 
 # ------------------------------------------------------------
 # FILTER FUNCTIONS
@@ -248,6 +251,7 @@ def filter_items(df, cat, sup, wh, seg, yr):
     if yr != "All": out = out[out["order_date"].dt.year.eq(int(yr))]
     return out
 
+
 def filter_inv(df, cat, sup, wh):
     out = df
     if cat != "All": out = out[out["category"].eq(cat)]
@@ -255,16 +259,17 @@ def filter_inv(df, cat, sup, wh):
     if wh != "All": out = out[out["warehouse_name"].eq(wh)]
     return out
 
+
 # ------------------------------------------------------------
-# AGGREGATION HELPERS (built fresh from the filtered granular data)
+# AGGREGATION HELPERS
 # ------------------------------------------------------------
 def agg_by(items_df, dim_col):
     sales_lines = items_df[items_df["transaction_type"] == "Sale"]
     return_lines = items_df[items_df["transaction_type"] == "Return / Reversal"]
     g = items_df.groupby(dim_col).agg(net_sales=("net_line_amount", "sum"),
-                                        gross_sales=("gross_line_amount", "sum"),
-                                        discount_amount=("discount_amount", "sum"),
-                                        orders=("order_id", "nunique")).reset_index()
+                                      gross_sales=("gross_line_amount", "sum"),
+                                      discount_amount=("discount_amount", "sum"),
+                                      orders=("order_id", "nunique")).reset_index()
     units_sold = sales_lines.groupby(dim_col)["quantity"].sum().rename("units_sold")
     units_returned = return_lines.groupby(dim_col)["quantity"].sum().abs().rename("units_returned")
     g = g.merge(units_sold, on=dim_col, how="left").merge(units_returned, on=dim_col, how="left")
@@ -272,6 +277,7 @@ def agg_by(items_df, dim_col):
     g["units_returned"] = g["units_returned"].fillna(0)
     g["return_rate"] = np.where(g["units_sold"] > 0, g["units_returned"] / g["units_sold"], 0)
     return g
+
 
 def product_level(items_df, inv_df):
     p = agg_by(items_df, ["product_id", "product_name", "category", "supplier_name"])
@@ -284,10 +290,12 @@ def product_level(items_df, inv_df):
     p["current_stock"] = p["current_stock"].fillna(0)
     p["reorder_level_total"] = p["reorder_level_total"].fillna(0)
     p["below_reorder_flag"] = p["below_reorder_flag"].fillna(False)
-    p["stock_to_reorder_ratio"] = np.where(p["reorder_level_total"] > 0, p["current_stock"] / p["reorder_level_total"], np.nan)
+    p["stock_to_reorder_ratio"] = np.where(p["reorder_level_total"] > 0, p["current_stock"] / p["reorder_level_total"],
+                                           np.nan)
     total = p["net_sales"].sum()
     p["revenue_share"] = np.where(total > 0, p["net_sales"] / total, 0)
     return p
+
 
 def classify_action(row):
     if row["below_reorder_flag"] and row["net_sales"] > 0 and row["return_rate"] >= GLOBAL_AVG_RETURN_RATE:
@@ -300,41 +308,51 @@ def classify_action(row):
         return "Zero Revenue Investigation"
     return None
 
+
 # ------------------------------------------------------------
 # HELPERS
 # ------------------------------------------------------------
 def money(v):
     if pd.isna(v): return "—"
     v = float(v)
-    if abs(v) >= 1e9: return f"₹{v/1e9:.2f}B"
-    if abs(v) >= 1e6: return f"₹{v/1e6:.2f}M"
-    if abs(v) >= 1e3: return f"₹{v/1e3:.1f}K"
+    if abs(v) >= 1e9: return f"₹{v / 1e9:.2f}B"
+    if abs(v) >= 1e6: return f"₹{v / 1e6:.2f}M"
+    if abs(v) >= 1e3: return f"₹{v / 1e3:.1f}K"
     return f"₹{v:,.0f}"
+
 
 def integer(v):
     if pd.isna(v): return "—"
     return f"{float(v):,.0f}"
 
+
 def pct(v):
     if pd.isna(v): return "—"
-    return f"{float(v)*100:.2f}%"
+    return f"{float(v) * 100:.2f}%"
+
 
 def heading(title, icon, subtitle=""):
     st.markdown(f'<div class="page-title"><b>{icon} {title}</b></div>', unsafe_allow_html=True)
     if subtitle:
         st.markdown(f'<div class="page-subtitle">{subtitle}</div>', unsafe_allow_html=True)
 
+
 def takeaway(text):
     st.markdown(f'<div class="takeaway"><b class="tk-label">🎯 Key Takeaway</b><br>{text}</div>', unsafe_allow_html=True)
 
+
 def tldr(items_list):
     lis = "".join(f"<li>{it}</li>" for it in items_list)
-    st.markdown(f'<div class="tldr"><div class="tldr-title">🚦 The Big Picture — 3 Things To Know</div><ul>{lis}</ul></div>', unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="tldr"><div class="tldr-title">🚦 The Big Picture — 3 Things To Know</div><ul>{lis}</ul></div>',
+        unsafe_allow_html=True)
+
 
 def section(title, icon, note=""):
     st.markdown(f'<div class="section-title"><b>{icon} {title}</b></div>', unsafe_allow_html=True)
     if note:
         st.markdown(f'<div class="section-note">{note}</div>', unsafe_allow_html=True)
+
 
 def kpi(col, icon, label, value, help_text=""):
     with col:
@@ -343,6 +361,7 @@ def kpi(col, icon, label, value, help_text=""):
         <div class="metric-value">{value}</div>
         <div class="metric-help">{help_text}</div>
         </div>''', unsafe_allow_html=True)
+
 
 def fig_style(fig, height=390, dark=False):
     paper = "#120c1f" if dark else "rgba(0,0,0,0)"
@@ -361,9 +380,7 @@ def fig_style(fig, height=390, dark=False):
     fig.update_yaxes(gridcolor="rgba(196,181,253,.12)", zeroline=False)
     return fig
 
-# Chart toolbar: zoom / pan / reset / download are shown next to every
-# chart (previously hidden). Unneeded buttons are trimmed so the bar
-# stays compact.
+
 CHART_CONFIG = {
     "displayModeBar": True,
     "displaylogo": False,
@@ -371,13 +388,17 @@ CHART_CONFIG = {
     "toImageButtonOptions": {"format": "png", "scale": 2},
 }
 
+
 def chart(fig, height=390):
     st.plotly_chart(fig_style(fig, height), width="stretch", config=CHART_CONFIG)
+
 
 # ------------------------------------------------------------
 # SIDEBAR / DROPDOWN SLICERS
 # ------------------------------------------------------------
-st.sidebar.markdown('<div class="brand"><div class="brand-title">📦 Supply Chain Intelligence</div><div class="brand-sub">Presentation-ready analytics dashboard</div></div>', unsafe_allow_html=True)
+st.sidebar.markdown(
+    '<div class="brand"><div class="brand-title">📦 Supply Chain Intelligence</div><div class="brand-sub">Presentation-ready analytics dashboard</div></div>',
+    unsafe_allow_html=True)
 
 page = st.sidebar.selectbox("📑 Dashboard Page", [
     "Executive Overview",
@@ -427,7 +448,9 @@ if len(sh_valid):
     carrier_stats = carrier_stats.merge(anomaly_counts, on="carrier", how="left")
     carrier_stats["anomaly_count"] = carrier_stats["anomaly_count"].fillna(0)
 else:
-    carrier_stats = pd.DataFrame(columns=["carrier", "avg_delivery_days", "median_delivery_days", "late_14d_rate", "shipment_count", "total_shipping_cost", "average_shipping_cost", "anomaly_count"])
+    carrier_stats = pd.DataFrame(
+        columns=["carrier", "avg_delivery_days", "median_delivery_days", "late_14d_rate", "shipment_count",
+                 "total_shipping_cost", "average_shipping_cost", "anomaly_count"])
 
 products_f = product_level(items_f, inv_f)
 if len(products_f):
@@ -435,13 +458,16 @@ if len(products_f):
 actions_f = products_f[products_f["action_area"].notna()].copy() if len(products_f) else products_f
 
 st.sidebar.markdown("---")
-st.sidebar.markdown('<span class="badge badge-blue">SQLITE</span><span class="badge badge-green">LIVE FILTERED DATA</span>', unsafe_allow_html=True)
+st.sidebar.markdown(
+    '<span class="badge badge-blue">SQLITE</span><span class="badge badge-green">LIVE FILTERED DATA</span>',
+    unsafe_allow_html=True)
 
 # ------------------------------------------------------------
 # 1. EXECUTIVE OVERVIEW
 # ------------------------------------------------------------
 if page == "Executive Overview":
-    heading("Executive Overview", "🧠", "A compact management view of revenue, orders, customers and commercial health. All figures below reflect the current filter selection.")
+    heading("Executive Overview", "🧠",
+            "A compact management view of revenue, orders, customers and commercial health. All figures below reflect the current filter selection.")
     tldr([
         "<b>Growth is slowing</b> — new-customer sales share fell from ~40% (2025) to ~7% (2026 YTD); the growth engine is running out of new buyers, not existing demand.",
         "<b>~25% of reported revenue isn't real yet</b> — it sits in Cancelled or Returned orders, so headline sales numbers overstate what actually landed.",
@@ -467,7 +493,8 @@ if page == "Executive Overview":
 
     monthly = items_f.dropna(subset=["order_date"]).copy()
     monthly["month"] = monthly["order_date"].dt.to_period("M").dt.to_timestamp()
-    monthly_agg = monthly.groupby("month", as_index=False).agg(gross_sales=("gross_line_amount", "sum"), net_sales=("net_line_amount", "sum"))
+    monthly_agg = monthly.groupby("month", as_index=False).agg(gross_sales=("gross_line_amount", "sum"),
+                                                               net_sales=("net_line_amount", "sum"))
     mt_display = monthly_agg[monthly_agg["month"] <= CUTOFF_DATE].sort_values("month")
     dropped = len(monthly_agg) - len(mt_display)
     note = "Gross sales and net sales movement over time, for the current filter selection."
@@ -477,10 +504,11 @@ if page == "Executive Overview":
     if mt_display.empty:
         st.info("No orders match the current filter selection.")
     else:
-        trend_long = mt_display.melt(id_vars="month", value_vars=["gross_sales", "net_sales"], var_name="type", value_name="sales")
+        trend_long = mt_display.melt(id_vars="month", value_vars=["gross_sales", "net_sales"], var_name="type",
+                                     value_name="sales")
         trend_long["type"] = trend_long["type"].map({"gross_sales": "Gross Sales", "net_sales": "Net Sales"})
         fig = px.line(trend_long, x="month", y="sales", color="type", markers=True, title="Gross vs Net Sales",
-                       color_discrete_map={"Gross Sales": LAV_2, "Net Sales": LAV_3})
+                      color_discrete_map={"Gross Sales": LAV_2, "Net Sales": LAV_3})
         fig.update_traces(line=dict(width=3))
         fig.update_layout(xaxis_title="Month", yaxis_title="Sales", legend_title="")
         chart(fig, 400)
@@ -493,13 +521,15 @@ if page == "Executive Overview":
             "amount": [gross_sales_v, discount_v, return_amount_v, net_sales_v],
         })
         wf = px.bar(bridge_df, x="stage", y="amount", color="stage", text="amount",
-                     title="Gross Sales, Discounts, Returns & Net Sales",
-                     color_discrete_map={"Gross Sales": LAV_3, "Discounts": LAV_WARN, "Returns": LAV_WARN, "Net Sales": LAV_2})
+                    title="Gross Sales, Discounts, Returns & Net Sales",
+                    color_discrete_map={"Gross Sales": LAV_3, "Discounts": LAV_WARN, "Returns": LAV_WARN,
+                                        "Net Sales": LAV_2})
         wf.update_traces(texttemplate="%{text:,.0f}", textposition="outside")
         wf.update_layout(showlegend=False, yaxis_title="Value", xaxis_title="")
         chart(wf, 400)
     with b:
-        section("Category Contribution", "🧩", "Which categories contribute the most net sales, in the current selection?")
+        section("Category Contribution", "🧩",
+                "Which categories contribute the most net sales, in the current selection?")
         cat_agg = agg_by(items_f, "category").sort_values("net_sales", ascending=False).head(10)
         if cat_agg.empty:
             st.info("No data for the current filter selection.")
@@ -509,14 +539,17 @@ if page == "Executive Overview":
             fig.update_layout(xaxis_title="Category", yaxis_title="Net Sales")
             chart(fig, 400)
 
-    section("New vs Returning Customers", "🌱", "Share of each year's net sales coming from customers placing their first-ever order that year, versus customers who had already ordered before (classification uses each customer's full order history, not just the current filter).")
+    section("New vs Returning Customers", "🌱",
+            "Share of each year's net sales coming from customers placing their first-ever order that year, versus customers who had already ordered before (classification uses each customer's full order history, not just the current filter).")
     first_year_map = items.dropna(subset=["order_date"]).groupby("customer_id")["order_date"].min().dt.year
     orv = items_f.dropna(subset=["order_date"]).copy()
     orv["year"] = orv["order_date"].dt.year
     orv["first_year"] = orv["customer_id"].map(first_year_map)
     orv["customer_type"] = np.where(orv["year"] == orv["first_year"], "New Customer", "Returning Customer")
-    orv = orv[(orv["year"] < CUTOFF_DATE.year) | ((orv["year"] == CUTOFF_DATE.year) & (orv["order_date"] <= CUTOFF_DATE))]
-    yearly = orv.groupby(["year", "customer_type"], as_index=False)["net_line_amount"].sum().rename(columns={"net_line_amount": "net_sales"})
+    orv = orv[
+        (orv["year"] < CUTOFF_DATE.year) | ((orv["year"] == CUTOFF_DATE.year) & (orv["order_date"] <= CUTOFF_DATE))]
+    yearly = orv.groupby(["year", "customer_type"], as_index=False)["net_line_amount"].sum().rename(
+        columns={"net_line_amount": "net_sales"})
     if yearly.empty:
         st.info("No data for the current filter selection.")
     else:
@@ -531,7 +564,8 @@ if page == "Executive Overview":
 # ------------------------------------------------------------
 elif page == "Revenue & Product":
     heading("Revenue & Product", "📊", "Understand where revenue comes from and which products combine value with risk.")
-    takeaway("Revenue is <b>not</b> concentrated in a handful of products — the portfolio is fairly broad. The real risk is a smaller set of high-selling products that also carry above-average return rates or have fallen below their reorder point, which the two scatter charts below surface directly.")
+    takeaway(
+        "Revenue is <b>not</b> concentrated in a handful of products — the portfolio is fairly broad. The real risk is a smaller set of high-selling products that also carry above-average return rates or have fallen below their reorder point, which the two scatter charts below surface directly.")
 
     p = products_f
     net_sales_v = items_f["net_line_amount"].sum()
@@ -541,9 +575,11 @@ elif page == "Revenue & Product":
 
     c = st.columns(4, gap="medium")
     kpi(c[0], "💰", "Net Sales", money(net_sales_v), "Current filter selection")
-    kpi(c[1], "📦", "Products", integer(p["product_id"].nunique()) if len(p) else "0", "With activity in current selection")
+    kpi(c[1], "📦", "Products", integer(p["product_id"].nunique()) if len(p) else "0",
+        "With activity in current selection")
     kpi(c[2], "↩️", "Return Rate", pct(return_rate_v), "Units returned / units sold")
-    kpi(c[3], "🚨", "Below Reorder", integer(p["below_reorder_flag"].sum()) if len(p) else "0", "Products below restock threshold")
+    kpi(c[3], "🚨", "Below Reorder", integer(p["below_reorder_flag"].sum()) if len(p) else "0",
+        "Products below restock threshold")
 
     if p.empty:
         st.info("No products match the current filter selection.")
@@ -563,22 +599,27 @@ elif page == "Revenue & Product":
             fig.update_traces(marker_color=LAV_1)
             fig.update_layout(xaxis_tickangle=-45, xaxis_title="", yaxis_title="Net Sales")
             chart(fig, 300)
-            fig2 = px.line(pareto, x="product_name", y="cumulative_share", markers=True, title="Cumulative Revenue Share (%)")
+            fig2 = px.line(pareto, x="product_name", y="cumulative_share", markers=True,
+                           title="Cumulative Revenue Share (%)")
             fig2.update_traces(line=dict(color=LAV_5, width=3))
-            fig2.update_layout(xaxis_tickangle=-45, xaxis_title="", yaxis_title="Cumulative Share %", yaxis_range=[0, 100])
+            fig2.update_layout(xaxis_tickangle=-45, xaxis_title="", yaxis_title="Cumulative Share %",
+                               yaxis_range=[0, 100])
             chart(fig2, 300)
 
         a, b = st.columns(2, gap="large")
         with a:
-            section("Sales vs Return Rate", "🔎", "Each dot is one product — top-right dots sell well but also get returned often.")
+            section("Sales vs Return Rate", "🔎",
+                    "Each dot is one product — top-right dots sell well but also get returned often.")
             s = p[p["net_sales"] > 0].copy()
-            fig = px.scatter(s, x="net_sales", y="return_rate", size="units_sold", color="category", hover_name="product_name", title="Net Sales vs Return Rate")
+            fig = px.scatter(s, x="net_sales", y="return_rate", size="units_sold", color="category",
+                             hover_name="product_name", title="Net Sales vs Return Rate")
             fig.update_yaxes(tickformat=".0%")
             chart(fig, 410)
         with b:
             section("Sales vs Stock / Reorder Ratio", "📦", "Flags high-value products running low on stock.")
             s2 = p[p["net_sales"] > 0].copy()
-            fig = px.scatter(s2, x="stock_to_reorder_ratio", y="net_sales", size="units_sold", color="category", hover_name="product_name", title="Stock-to-Reorder Ratio vs Net Sales")
+            fig = px.scatter(s2, x="stock_to_reorder_ratio", y="net_sales", size="units_sold", color="category",
+                             hover_name="product_name", title="Stock-to-Reorder Ratio vs Net Sales")
             fig.update_xaxes(title="Stock ÷ Reorder Level (below 1 = under reorder point)")
             chart(fig, 410)
 
@@ -586,8 +627,10 @@ elif page == "Revenue & Product":
 # 3. CUSTOMER INTELLIGENCE
 # ------------------------------------------------------------
 elif page == "Customer Intelligence":
-    heading("Customer Intelligence", "👥", "Identify valuable segments, customer recency patterns and geographic revenue concentration.")
-    takeaway("Nearly 90% of customers are repeat buyers and revenue is evenly split across segments (~22–24% each) — the customer base itself is healthy. The opportunity is in the scatter chart below: it identifies specific high-value customers who have gone quiet and are worth a win-back campaign.")
+    heading("Customer Intelligence", "👥",
+            "Identify valuable segments, customer recency patterns and geographic revenue concentration.")
+    takeaway(
+        "Nearly 90% of customers are repeat buyers and revenue is evenly split across segments (~22–24% each) — the customer base itself is healthy. The opportunity is in the scatter chart below: it identifies specific high-value customers who have gone quiet and are worth a win-back campaign.")
 
     cust = items_f.groupby(["customer_id", "segment", "customer_country"], dropna=False).agg(
         net_sales=("net_line_amount", "sum"),
@@ -599,9 +642,12 @@ elif page == "Customer Intelligence":
 
     c = st.columns(4, gap="medium")
     kpi(c[0], "👥", "Customers", integer(cust["customer_id"].nunique()) if len(cust) else "0", "Current selection")
-    kpi(c[1], "💰", "Customer Net Sales", money(cust["net_sales"].sum()) if len(cust) else "₹0", "Total for current selection")
-    kpi(c[2], "🔁", "Repeat Customers", integer(cust["repeat_customer_flag"].sum()) if len(cust) else "0", "More than one order in selection")
-    kpi(c[3], "⏳", "Avg Recency", integer(cust["recency_adj"].mean()) if len(cust) else "—", "Days since last order in selection")
+    kpi(c[1], "💰", "Customer Net Sales", money(cust["net_sales"].sum()) if len(cust) else "₹0",
+        "Total for current selection")
+    kpi(c[2], "🔁", "Repeat Customers", integer(cust["repeat_customer_flag"].sum()) if len(cust) else "0",
+        "More than one order in selection")
+    kpi(c[3], "⏳", "Avg Recency", integer(cust["recency_adj"].mean()) if len(cust) else "—",
+        "Days since last order in selection")
 
     if cust.empty:
         st.info("No customers match the current filter selection.")
@@ -614,35 +660,45 @@ elif page == "Customer Intelligence":
             fig.update_traces(marker_color=LAV_2)
             chart(fig, 390)
         with b:
-            section("Customer Value × Recency", "⏳", "Recency and sales both reflect only orders matching the current filter.")
+            section("Customer Value × Recency", "⏳",
+                    "Recency and sales both reflect only orders matching the current filter.")
             s = cust[cust["net_sales"] > 0].copy()
-            fig = px.scatter(s, x="recency_adj", y="net_sales", size="order_count", color="segment", hover_name="customer_id", title="Customer Value vs Days Since Last Order")
+            fig = px.scatter(s, x="recency_adj", y="net_sales", size="order_count", color="segment",
+                             hover_name="customer_id", title="Customer Value vs Days Since Last Order")
             fig.update_xaxes(title="Days Since Last Order (in selection)")
             chart(fig, 390)
 
         section("Global Customer Revenue", "🌍", "Revenue by customer country, for the current filter selection.")
-        country_agg = cust.groupby("customer_country", as_index=False)["net_sales"].sum().rename(columns={"customer_country": "country"})
+        country_agg = cust.groupby("customer_country", as_index=False)["net_sales"].sum().rename(
+            columns={"customer_country": "country"})
         country_agg = country_agg.dropna(subset=["country"])
         if country_agg.empty:
             st.info("No country data available for the current filter selection.")
         else:
-            map_fig = px.choropleth(country_agg, locations="country", locationmode="country names", color="net_sales", hover_name="country", color_continuous_scale=LAVENDER_CONTINUOUS, title="Global Customer Revenue")
-            map_fig.update_geos(bgcolor="#120c1f", showland=True, landcolor="#1d1633", showocean=True, oceancolor="#120c1f", showcountries=True, countrycolor="#3d3260", showframe=False)
-            map_fig.update_layout(paper_bgcolor="#120c1f", plot_bgcolor="#120c1f", font_color="#ece6fb", margin=dict(l=0, r=0, t=55, b=0), height=470)
+            map_fig = px.choropleth(country_agg, locations="country", locationmode="country names", color="net_sales",
+                                    hover_name="country", color_continuous_scale=LAVENDER_CONTINUOUS,
+                                    title="Global Customer Revenue")
+            map_fig.update_geos(bgcolor="#120c1f", showland=True, landcolor="#1d1633", showocean=True,
+                                oceancolor="#120c1f", showcountries=True, countrycolor="#3d3260", showframe=False)
+            map_fig.update_layout(paper_bgcolor="#120c1f", plot_bgcolor="#120c1f", font_color="#ece6fb",
+                                  margin=dict(l=0, r=0, t=55, b=0), height=470)
             st.plotly_chart(map_fig, width="stretch", config=CHART_CONFIG)
 
 # ------------------------------------------------------------
 # 4. INVENTORY & WAREHOUSE
 # ------------------------------------------------------------
 elif page == "Inventory & Warehouse":
-    heading("Inventory & Warehouse", "🏭", "Compare inventory footprint with sales demand and highlight potential stock pressure.")
-    takeaway("Stock is measurably misallocated: warehouses that are under-stocked relative to their sales also carry more low-stock items. Moving stock from over-stocked to under-stocked warehouses — rather than buying more inventory — is the fastest fix.")
+    heading("Inventory & Warehouse", "🏭",
+            "Compare inventory footprint with sales demand and highlight potential stock pressure.")
+    takeaway(
+        "Stock is measurably misallocated: warehouses that are under-stocked relative to their sales also carry more low-stock items. Moving stock from over-stocked to under-stocked warehouses — rather than buying more inventory — is the fastest fix.")
 
     w_stock = inv_f.groupby("warehouse_name", as_index=False).agg(
         total_stock=("stock_quantity", "sum"),
         low_stock_items=("stock_status", lambda x: (x == "Below Reorder Level").sum()),
     )
-    w_sales = items_f.groupby("warehouse_name", as_index=False)["net_line_amount"].sum().rename(columns={"net_line_amount": "net_sales"})
+    w_sales = items_f.groupby("warehouse_name", as_index=False)["net_line_amount"].sum().rename(
+        columns={"net_line_amount": "net_sales"})
     w = w_stock.merge(w_sales, on="warehouse_name", how="outer").fillna(0)
     w["stock_share"] = w["total_stock"] / max(w["total_stock"].sum(), 1)
     w["sales_share"] = w["net_sales"] / max(w["net_sales"].sum(), 1)
@@ -664,34 +720,42 @@ elif page == "Inventory & Warehouse":
     else:
         a, b = st.columns(2, gap="large")
         with a:
-            section("Warehouse Balance", "⚖️", "Sales share minus stock share, per warehouse. Bars to the right hold less stock than their sales justify (stockout risk); bars to the left hold more stock than they sell (tied-up capital).")
+            section("Warehouse Balance", "⚖️",
+                    "Sales share minus stock share, per warehouse. Bars to the right hold less stock than their sales justify (stockout risk); bars to the left hold more stock than they sell (tied-up capital).")
             wb = w.sort_values("gap")
             fig = px.bar(wb, x="gap", y="warehouse_name", orientation="h",
-                          color=wb["gap"] > 0,
-                          color_discrete_map={True: LAV_WARN, False: LAV_2},
-                          title="Sales Share − Stock Share, by Warehouse")
-            fig.update_layout(showlegend=False, xaxis_tickformat="+.1%", xaxis_title="Sales share − Stock share", yaxis_title="")
+                         color=wb["gap"] > 0,
+                         color_discrete_map={True: LAV_WARN, False: LAV_2},
+                         title="Sales Share − Stock Share, by Warehouse")
+            fig.update_layout(showlegend=False, xaxis_tickformat="+.1%", xaxis_title="Sales share − Stock share",
+                              yaxis_title="")
             fig.add_vline(x=0, line_color="rgba(196,181,253,.4)")
             chart(fig, 620)
         with b:
-            section("Imbalance Drives Low Stock", "🔎", "Warehouses more under-stocked relative to demand tend to carry more low-stock items.")
+            section("Imbalance Drives Low Stock", "🔎",
+                    "Warehouses more under-stocked relative to demand tend to carry more low-stock items.")
             fig = px.scatter(wb, x="gap", y="low_stock_items", size="total_stock", hover_name="warehouse_name",
-                              title="Allocation Gap vs Low-Stock Items")
-            fig.update_layout(xaxis_tickformat="+.1%", xaxis_title="Sales share − Stock share", yaxis_title="Low-Stock Items")
+                             title="Allocation Gap vs Low-Stock Items")
+            fig.update_layout(xaxis_tickformat="+.1%", xaxis_title="Sales share − Stock share",
+                              yaxis_title="Low-Stock Items")
             fig.add_vline(x=0, line_color="rgba(196,181,253,.4)")
             chart(fig, 300)
             if wb["gap"].nunique() > 1 and wb["low_stock_items"].nunique() > 1:
                 corr = wb["gap"].corr(wb["low_stock_items"])
-                st.markdown(f'<div class="insight">📌 Correlation between allocation gap and low-stock items: <b>{corr:.2f}</b> — the more under-stocked a warehouse is relative to its sales, the more items in it run low.</div>', unsafe_allow_html=True)
+                st.markdown(
+                    f'<div class="insight">📌 Correlation between allocation gap and low-stock items: <b>{corr:.2f}</b> — the more under-stocked a warehouse is relative to its sales, the more items in it run low.</div>',
+                    unsafe_allow_html=True)
 
         a, b = st.columns(2, gap="large")
         with a:
-            section("High-value Inventory Exposure", "🚨", "Products combining commercial value with below-reorder status.")
+            section("High-value Inventory Exposure", "🚨",
+                    "Products combining commercial value with below-reorder status.")
             risk = p[p["below_reorder_flag"] == True].sort_values("net_sales", ascending=False).head(15)
             if risk.empty:
                 st.info("No below-reorder products in the current filter selection.")
             else:
-                fig = px.bar(risk, x="net_sales", y="product_name", orientation="h", color="category", title="Top Below-Reorder Products by Net Sales")
+                fig = px.bar(risk, x="net_sales", y="product_name", orientation="h", color="category",
+                             title="Top Below-Reorder Products by Net Sales")
                 chart(fig, 410)
         with b:
             section("Stock vs Commercial Value", "🔎")
@@ -699,7 +763,8 @@ elif page == "Inventory & Warehouse":
             if s.empty:
                 st.info("No data for the current filter selection.")
             else:
-                fig = px.scatter(s, x="current_stock", y="net_sales", size="units_sold", color="category", hover_name="product_name", title="Current Stock vs Net Sales")
+                fig = px.scatter(s, x="current_stock", y="net_sales", size="units_sold", color="category",
+                                 hover_name="product_name", title="Current Stock vs Net Sales")
                 chart(fig, 410)
 
 # ------------------------------------------------------------
@@ -707,7 +772,8 @@ elif page == "Inventory & Warehouse":
 # ------------------------------------------------------------
 elif page == "Supplier & Logistics":
     heading("Supplier & Logistics", "🚚", "Review supplier contribution and carrier cost-service patterns.")
-    takeaway("Supplier rating and sales volume barely correlate, and a meaningful share of sales runs through suppliers rated below 3/5 — a concentration risk if any one of them fails to deliver. Separately, delivery times vary across carriers once anomalous shipments are excluded.")
+    takeaway(
+        "Supplier rating and sales volume barely correlate, and a meaningful share of sales runs through suppliers rated below 3/5 — a concentration risk if any one of them fails to deliver. Separately, delivery times vary across carriers once anomalous shipments are excluded.")
 
     sup = items_f.groupby(["supplier_name", "supplier_country", "supplier_rating"], dropna=False).agg(
         net_sales=("net_line_amount", "sum"),
@@ -716,9 +782,12 @@ elif page == "Supplier & Logistics":
 
     c = st.columns(4, gap="medium")
     kpi(c[0], "🏭", "Suppliers", integer(sup["supplier_name"].nunique()) if len(sup) else "0", "Current selection")
-    kpi(c[1], "💰", "Supplier Net Sales", money(sup["net_sales"].sum()) if len(sup) else "₹0", "Associated commercial value")
-    kpi(c[2], "🚚", "Carriers", integer(carrier_stats["carrier"].nunique()) if len(carrier_stats) else "0", "Shipment carriers in selection")
-    kpi(c[3], "💸", "Shipping Cost", money(carrier_stats["total_shipping_cost"].sum()) if len(carrier_stats) else "₹0", "Total shipping cost in selection")
+    kpi(c[1], "💰", "Supplier Net Sales", money(sup["net_sales"].sum()) if len(sup) else "₹0",
+        "Associated commercial value")
+    kpi(c[2], "🚚", "Carriers", integer(carrier_stats["carrier"].nunique()) if len(carrier_stats) else "0",
+        "Shipment carriers in selection")
+    kpi(c[3], "💸", "Shipping Cost", money(carrier_stats["total_shipping_cost"].sum()) if len(carrier_stats) else "₹0",
+        "Total shipping cost in selection")
 
     if sup.empty:
         st.info("No supplier data for the current filter selection.")
@@ -726,14 +795,17 @@ elif page == "Supplier & Logistics":
         a, b = st.columns(2, gap="large")
         with a:
             section("Supplier Contribution × Rating", "⭐")
-            fig = px.scatter(sup, x="supplier_rating", y="net_sales", size="product_count", color="supplier_country", hover_name="supplier_name", title="Supplier Rating vs Net Sales")
+            fig = px.scatter(sup, x="supplier_rating", y="net_sales", size="product_count", color="supplier_country",
+                             hover_name="supplier_name", title="Supplier Rating vs Net Sales")
             chart(fig, 400)
         with b:
-            section("Carrier Cost × Delivery Time", "🚚", "Delivery time excludes shipments with implausible delivery windows (>60 days).")
+            section("Carrier Cost × Delivery Time", "🚚",
+                    "Delivery time excludes shipments with implausible delivery windows (>60 days).")
             if carrier_stats.empty:
                 st.info("No shipments match the current filter selection.")
             else:
-                fig = px.scatter(carrier_stats, x="average_shipping_cost", y="avg_delivery_days", size="shipment_count", hover_name="carrier", title="Average Shipping Cost vs Delivery Days (corrected)")
+                fig = px.scatter(carrier_stats, x="average_shipping_cost", y="avg_delivery_days", size="shipment_count",
+                                 hover_name="carrier", title="Average Shipping Cost vs Delivery Days (corrected)")
                 fig.update_yaxes(title="Avg Delivery Days (corrected)")
                 chart(fig, 400)
 
@@ -741,11 +813,13 @@ elif page == "Supplier & Logistics":
         with a:
             section("Supplier Revenue Concentration", "🎯")
             top = sup.sort_values("net_sales", ascending=False).head(12)
-            fig = px.bar(top.sort_values("net_sales"), x="net_sales", y="supplier_name", orientation="h", title="Top Suppliers by Net Sales")
+            fig = px.bar(top.sort_values("net_sales"), x="net_sales", y="supplier_name", orientation="h",
+                         title="Top Suppliers by Net Sales")
             fig.update_traces(marker_color=LAV_2)
             chart(fig, 400)
         with b:
-            section("Net Sales Share by Supplier Rating", "⭐", "Rating and revenue don't line up — a meaningful share of sales sits with lower-rated suppliers.")
+            section("Net Sales Share by Supplier Rating", "⭐",
+                    "Rating and revenue don't line up — a meaningful share of sales sits with lower-rated suppliers.")
             sr = sup.dropna(subset=["supplier_rating"]).copy()
             if sr.empty:
                 st.info("No supplier rating data for the current filter selection.")
@@ -753,11 +827,12 @@ elif page == "Supplier & Logistics":
                 band_labels = ["1–2 (Poor)", "2–3 (Below Avg)", "3–4 (Good)", "4–5 (Excellent)"]
                 sr["rating_band"] = pd.cut(sr["supplier_rating"], [0, 2, 3, 4, 5], labels=band_labels)
                 band = sr.groupby("rating_band", observed=True, as_index=False)["net_sales"].sum()
-                band_colors = {"1–2 (Poor)": LAV_6, "2–3 (Below Avg)": LAV_3, "3–4 (Good)": LAV_1, "4–5 (Excellent)": "#e9d5ff"}
+                band_colors = {"1–2 (Poor)": LAV_6, "2–3 (Below Avg)": LAV_3, "3–4 (Good)": LAV_1,
+                               "4–5 (Excellent)": "#e9d5ff"}
                 fig = px.pie(band, names="rating_band", values="net_sales", hole=0.68,
-                              color="rating_band", color_discrete_map=band_colors,
-                              category_orders={"rating_band": band_labels},
-                              title="Net Sales Share by Supplier Rating Band")
+                             color="rating_band", color_discrete_map=band_colors,
+                             category_orders={"rating_band": band_labels},
+                             title="Net Sales Share by Supplier Rating Band")
                 fig.update_traces(textinfo="percent+label", marker=dict(line=dict(color="#150f24", width=1)))
                 chart(fig, 400)
 
@@ -767,13 +842,15 @@ elif page == "Supplier & Logistics":
             if sh_valid.empty:
                 st.info("No shipments match the current filter selection.")
             else:
-                fig = px.histogram(sh_valid, x="delivery_days", nbins=30, title="Delivery Days Distribution (excl. anomalies >60 days)")
+                fig = px.histogram(sh_valid, x="delivery_days", nbins=30,
+                                   title="Delivery Days Distribution (excl. anomalies >60 days)")
                 fig.update_traces(marker_color=LAV_2)
                 fig.add_vline(x=14, line_dash="dash", line_color=LAV_WARN, annotation_text="14 days")
                 fig.update_layout(xaxis_title="Delivery Days", yaxis_title="Shipments")
                 chart(fig, 380)
         with b:
-            section("Late Shipments by Carrier", "🚨", "Share of each carrier's shipments delivered more than 14 days after dispatch.")
+            section("Late Shipments by Carrier", "🚨",
+                    "Share of each carrier's shipments delivered more than 14 days after dispatch.")
             cr = carrier_stats.dropna(subset=["late_14d_rate"]).sort_values("late_14d_rate", ascending=False)
             if cr.empty:
                 st.info("No shipment data for the current filter selection.")
@@ -787,8 +864,10 @@ elif page == "Supplier & Logistics":
 # 6. DATA QUALITY & ACTION
 # ------------------------------------------------------------
 elif page == "Data Quality & Action":
-    heading("Data Quality & Action", "🎯", "Validate analytical confidence and surface evidence-based areas that deserve investigation.")
-    takeaway("About a quarter of reported net sales sits in Cancelled or Returned orders, and a large share of Pending orders are over a year old and unlikely to ever convert. Treat headline revenue figures as directional until these are reconciled with order status.")
+    heading("Data Quality & Action", "🎯",
+            "Validate analytical confidence and surface evidence-based areas that deserve investigation.")
+    takeaway(
+        "About a quarter of reported net sales sits in Cancelled or Returned orders, and a large share of Pending orders are over a year old and unlikely to ever convert. Treat headline revenue figures as directional until these are reconciled with order status.")
 
     om = order_meta_f
     complete_n = int((om["revenue_completeness_status"] == "Complete").sum())
@@ -817,21 +896,24 @@ elif page == "Data Quality & Action":
             fig.update_traces(marker_color=LAV_2)
             chart(fig, 400)
     with b:
-        section("Net Sales by Order Status", "📋", "About a quarter of reported net sales sits in Cancelled or Returned orders.")
+        section("Net Sales by Order Status", "📋",
+                "About a quarter of reported net sales sits in Cancelled or Returned orders.")
         os_agg = agg_by(items_f, "order_status").sort_values("net_sales", ascending=False)
         if os_agg.empty:
             st.info("No orders match the current filter selection.")
         else:
             os_agg["is_final"] = os_agg["order_status"].isin(["Cancelled", "Returned"])
             fig = px.bar(os_agg, x="order_status", y="net_sales", color="is_final",
-                          color_discrete_map={True: LAV_WARN, False: LAV_2},
-                          title="Net Sales by Order Status")
+                         color_discrete_map={True: LAV_WARN, False: LAV_2},
+                         title="Net Sales by Order Status")
             fig.update_layout(showlegend=False, yaxis_title="Net Sales")
             chart(fig, 400)
 
-    section("Pending Order Aging", "⏳", "How long orders have sat in Pending status, as of the last fully-recorded month. Older pending orders are less likely to ever convert.")
+    section("Pending Order Aging", "⏳",
+            "How long orders have sat in Pending status, as of the last fully-recorded month. Older pending orders are less likely to ever convert.")
     ord_level = items_f.dropna(subset=["order_date"]).groupby("order_id", as_index=False).agg(
-        order_date=("order_date", "first"), order_status=("order_status", "first"), net_sales=("net_line_amount", "sum"))
+        order_date=("order_date", "first"), order_status=("order_status", "first"),
+        net_sales=("net_line_amount", "sum"))
     pend = ord_level[(ord_level["order_status"] == "Pending") & (ord_level["order_date"] <= CUTOFF_DATE)].copy()
     if pend.empty:
         st.info("No pending orders match the current filter selection.")
@@ -840,19 +922,27 @@ elif page == "Data Quality & Action":
         bins = [-1, 30, 90, 180, 365, 10_000]
         labels = ["0–30d", "31–90d", "91–180d", "181–365d", "365d+"]
         pend["bucket"] = pd.cut(pend["age_days"], bins=bins, labels=labels)
-        agg = pend.groupby("bucket", observed=True, as_index=False).agg(orders=("order_id", "count"), net_sales=("net_sales", "sum"))
+        agg = pend.groupby("bucket", observed=True, as_index=False).agg(orders=("order_id", "count"),
+                                                                        net_sales=("net_sales", "sum"))
         fig = px.bar(agg, x="bucket", y="net_sales", text="orders", title="Pending Order Value by Age Bucket")
         fig.update_traces(marker_color=LAV_3, textposition="outside")
         fig.update_layout(xaxis_title="Time Since Order Placed", yaxis_title="Net Sales Tied Up")
         chart(fig, 380)
 
-    section("Investigation Priorities", "🚦", "Evidence-based shortlist; these are areas to investigate, not automatic business decisions. Thresholds compare against the company-wide average, so this stays meaningful even when filtered.")
+    section("Investigation Priorities", "🚦",
+            "Evidence-based shortlist; these are areas to investigate, not automatic business decisions. Thresholds compare against the company-wide average, so this stays meaningful even when filtered.")
     if actions_f.empty:
         st.info("No flagged products in the current filter selection.")
     else:
-        action_counts = actions_f.groupby("action_area", as_index=False).agg(net_sales=("net_sales", "sum"), products=("product_id", "nunique")).sort_values("net_sales", ascending=False)
-        fig = px.bar(action_counts, x="action_area", y="net_sales", text="products", title="Commercial Exposure by Action Area")
+        action_counts = actions_f.groupby("action_area", as_index=False).agg(net_sales=("net_sales", "sum"),
+                                                                             products=("product_id",
+                                                                                       "nunique")).sort_values(
+            "net_sales", ascending=False)
+        fig = px.bar(action_counts, x="action_area", y="net_sales", text="products",
+                     title="Commercial Exposure by Action Area")
         fig.update_traces(marker_color=LAV_1, textposition="outside")
         chart(fig, 390)
 
-st.markdown('<div style="text-align:center;color:#8b7fae;font-size:.68rem;margin-top:2rem;">Supply Chain Intelligence • Analytical database • Streamlit presentation version</div>', unsafe_allow_html=True)
+st.markdown(
+    '<div style="text-align:center;color:#8b7fae;font-size:.68rem;margin-top:2rem;">Supply Chain Intelligence • Analytical database • Streamlit presentation version</div>',
+    unsafe_allow_html=True)
