@@ -1,0 +1,41 @@
+warehouse_id,warehouse_name,location,capacity_units,manager,inventory_record_count,product_count,has_inventory
+501,Christophershire Distribution Center,India,599758,Kristy Tyler,75,75,TRUE
+502,North Leonardport Distribution Center,United Kingdom,188058,Howard Campbell,75,75,TRUE
+503,Portermouth Distribution Center,France,590281,Molly Dickson,75,75,TRUE
+504,West Richardhaven Distribution Center,China,363066,Robert Hernandez,76,75,TRUE
+505,Woodston Distribution Center,Brazil,559275,Christian Ford,75,75,TRUE
+506,Lake Jesseborough Distribution Center,Mexico,345917,Martha Mack,75,75,TRUE
+507,New Zachary Distribution Center,Germany,216755,Marisa Conrad,75,75,TRUE
+508,Sethberg Distribution Center,Canada,363139,Isaac Chase,75,75,TRUE
+509,Williamsfurt Distribution Center,India,300799,,75,75,TRUE
+510,New Courtney Distribution Center,Australia,166207,Robert Thomas PhD,75,75,TRUE
+511,South Clintonmouth Distribution Center,Mexico,557396,Edward Jones,75,75,TRUE
+512,Michaelland Distribution Center,Brazil,295431,Raymond Scott,75,75,TRUE
+513,Goodmouth Distribution Center,Brazil,309119,Brenda Martinez,75,75,TRUE
+514,Williamsport Distribution Center,China,598464,Scott Stark,75,75,TRUE
+515,South Michael Distribution Center,France,547105,Tiffany Brooks,75,75,TRUE
+516,Hunterview Distribution Center,Mexico,443699,Wendy Williams,75,75,TRUE
+517,Lake Krystalside Distribution Center,Vietnam,561993,Samuel Roberts,76,75,TRUE
+518,New Reginald Distribution Center,United Kingdom,329521,James Ford,76,75,TRUE
+519,West Stevenside Distribution Center,United Kingdom,292213,Julie Miller,75,75,TRUE
+520,South Kaylaborough Distribution Center,Germany,319955,Austin Peterson,75,75,TRUE
+521,Lewisfort Distribution Center,Brazil,310614,Jesse Gardner,75,75,TRUE
+522,Thomasborough Distribution Center,Vietnam,365765,Andre Burke,75,75,TRUE
+523,Brownstad Distribution Center,Vietnam,495564,Veronica Lewis,75,75,TRUE
+524,Port Andrew Distribution Center,India,510884,Jenny King,75,75,TRUE
+525,North Donald Distribution Center,Brazil,523618,Brad Russo,75,75,TRUE
+526,Savagehaven Distribution Center,Japan,455004,Steven White,75,75,TRUE
+527,North Pattychester Distribution Center,Mexico,302809,Paul Martin,75,75,TRUE
+528,Sherifort Distribution Center,Vietnam,585363,Michael Martin,75,75,TRUE
+529,Gomezshire Distribution Center,Japan,346607,Adam Logan,75,75,TRUE
+530,North Jennifer Distribution Center,China,447894,Brianna Beck,75,75,TRUE
+531,Alexismouth Distribution Center,China,467710,Kathryn Stewart,76,75,TRUE
+532,Bakertown Distribution Center,France,576306,Terri Mathews DDS,75,75,TRUE
+533,North Jefferyborough Distribution Center,United Kingdom,409551,Joshua Martin,75,75,TRUE
+534,Robinsonborough Distribution Center,Australia,580523,Valerie Ray,75,75,TRUE
+535,West Lisatown Distribution Center,Germany,479311,Eric Fuentes,75,75,TRUE
+536,Lake Victormouth Distribution Center,Japan,379204,Guy Clayton,75,75,TRUE
+537,Millsmouth Distribution Center,India,171513,Christopher Patterson,75,75,TRUE
+538,New Brooke Distribution Center,Canada,430610,Jane Bruce,75,75,TRUE
+539,Waltersville Distribution Center,Mexico,510041,,76,75,TRUE
+540,Garciaside Distribution Center,Vietnam,447044,Jeremy Perkins,75,75,TRUE

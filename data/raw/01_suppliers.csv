@@ -1,0 +1,307 @@
+supplier_id,supplier_name,contact_email,phone,country,rating,established_year
+1001,"Rodriguez, Figueroa and Sanchez",jillrhodes@miller.com,989.608.3863,Vietnam,2,1981
+1002,Blake and Sons,jpeterson@bernard.com,361-855-9407,Canada,1.1,2007
+1003,Arnold Ltd,barbara10@perez.com,664-375-2553,Canada,3.2,2012
+1004,"Reid, Ferguson and Sanchez",ogray@hawkins.com,505.964.1395,United States,2.1,2023
+1005,Wilkerson-Day,josephwright@ryan.org,(353)828-7101x2269,United Kingdom,,2004
+1006,Carlson-Mcdonald,tasha01@dyer.com,346-627-0482,France,3.5,1998
+1007,"Romero, Gonzalez and Brooks",amberosborne@sellers.com,(443)903-9117x182,Mexico,4.1,1989
+1008,"Martin, Rose and Obrien",sarahcampos@harris.com,587.213.3150x983,France,2.5,1988
+1009,Zimmerman Inc,carlosjohnson@jones-young.info,582.399.7376,Mexico,3.4,2021
+1010,Hopkins LLC,ujenkins@nunez.com,4658133387,Japan,3.6,2018
+1011,Ramirez and Sons,ramosmichelle@garcia.com,,United States,2.1,2011
+1012,Galloway LLC,smitchell@cowan.com,243.909.8050,Brazil,4.5,1984
+1013,"Calhoun, Schmidt and Brown",yorkcasey@leonard.biz,793-699-0916,Germany,2.7,1998
+1014,Santiago LLC,josephanderson@evans.com,,India,1.6,2018
+1015,Ibarra-Suarez,justin78@turner.net,4846124118,United Kingdom,2,1975
+1016,Jacobs-Robbins,gracefarrell@freeman.com,+1-264-300-5242x7868,U.K.,1.4,
+1017,Landry Ltd,amydavenport@tran.com,4535315869,Mexico,3,1981
+1018,Cherry and Sons,vjohnson@patton-jenkins.com,521-260-7337x543,China,1.8,1985
+1019,"Lee, Murphy and Lin",michael86@zavala.com,329-840-1965x569,Canada,3,1998
+1020,"Lee, Williams and Graham",michaeljones@mccall.com,001-448-646-5648x2366,China,3.3,2021
+1021,Kelley-Smith,jason99@morris.net,221.248.9513x4332,england,4.8,2008
+1022,Riggs PLC,gibsonolivia@lee.com,(501)363-2870,France,4,2020
+1023,Anderson-Marshall,stephanie79@mcclain.info,(677)943-4873,Vietnam,3.1,1989
+1024,Reeves and Sons,matthew81@hernandez.com,001-831-266-5876x036,United States,3.8,1979
+1025,"James, Smith and Bell",acastaneda@adkins.com,234.867.0656x2729,Brazil,3.7,1983
+1026,"Elliott, Johnson and Day",michellewhite@gray-lewis.com,264-564-1708x05310,Australia,2.9,1981
+1027,Combs PLC,johnwells@elliott.info,001-645-829-9124x190,France,4.5,2016
+1028,David-Gonzalez,curtisbarton@burke.com,(786)951-8506x716,United Kingdom,1.4,2009
+1029,"Hernandez, Thompson and Boyd",christina87@graham-simon.com,431-947-3799x65075,France,4.5,2010
+1030,Kelly LLC,joshua94@smith.biz,783.977.7014x3634,Vietnam,4.9,1990
+1031,"Schmidt, Coleman and Reese",michael74@king-martinez.com,618-523-3749x89413,Japan,4.6,1975
+1032,White-Smith,joshuamccann@carter.info,209-647-7752,China,2.1,2021
+1033,Wilson-Jones,ojones@brown.com,831-986-9993,Canada,1.8,1978
+1034,Evans-Chapman,ntorres@lynch.com,001-933-641-2328x12067,Canada,1.2,2008
+1035,Hall Ltd,jacqueline71@hall.org,+1-636-918-3242x10249,Canada,3.4,1990
+1036,Harrison LLC,gbender@snyder.biz,001-459-940-1399x0490,Australia,3.5,2012
+1037,"Pearson, Moon and White",fwalters@harrison.com,712-356-7468x07154,Brazil,3.9,2000
+1038,Hancock-Bryan,sandovalamy@brown-stone.org,001-577-403-4824x77109,Vietnam,4,2004
+1039,Pierce-Tran,walkermaureen@murray.com,,Australia,1.9,1997
+1040,Barton-Dickerson,sarah84@campbell.org,001-872-978-7558,Germany,3.8,2016
+1041,Kane-Pollard,ashleyhall@williams-garner.biz,(227)402-8951x7187,Vietnam,3.7,1983
+1042,Pitts-Booker,harrisontanya@hanson-sanders.com,386-357-8091x34316,UK,3.9,2015
+1043,Jackson-Evans,williamslaura@howard-jordan.com,569.922.2196x93792,Canada,4.4,2002
+1044,"King, Scott and Smith",,664-674-3671x3695,United States,2,2010
+1045,Spence Ltd,,,Canada,4.5,
+1046,"Anderson, Browning and Murphy",ithompson@walter.com,(547)845-1712,Brazil,1.5,1977
+1047,"Diaz, Gibbs and Smith",gibsonemily@baker.com,337-909-8593,Germany,3.2,2014
+1048,"Turner, Ortiz and Taylor",torrestravis@young.com,(275)786-9261x7964,Germany,,2022
+1049,Ramos and Sons,cory58@howard.com,513.590.0532x931,France,4.2,2019
+1050,Murphy and Sons,ramireztracey@fernandez.com,+1-302-305-3950x24026,United States,2.8,1989
+1051,West-Cox,hayesjeffrey@williams.net,470-307-6617x7115,Vietnam,4.5,1992
+1052,Hill Ltd,oscar98@chavez-jacobs.com,001-318-736-7365x766,Canada,3.1,1982
+1053,Edwards-Scott,gloriawells@decker.biz,352-880-9885,China,2.1,2002
+1054,Russo-Pugh,uparrish@schmitt.com,(319)683-2731x585,Brazil,1.5,1987
+1055,"Perez, Patterson and Hoffman",lynchdiane@adams.com,850-922-9612x01836,Mexico,4.2,2022
+1056,Moore-Collins,kimberly99@ware.com,,Germany,2.3,1982
+1057,Rodriguez-Gregory,trose@walker.com,2349324451,China,2.3,2010
+1058,"Jordan, Anderson and Patel",vincentwhitaker@jones-hensley.com,(707)415-9696x64160,France,4,2011
+1059,"Stevens, Norris and Cox",prichard@chapman-warren.biz,453-552-1818x8355,Canada,1.8,2013
+1060,Thomas and Sons,carriewolf@jones.info,001-699-279-9552x71774,Japan,3,2022
+1061,Romero-Collins,xjohnson@jones-lin.com,+1-998-467-9807x935,United Kingdom,1.4,1990
+1062,Hayes LLC,wagnergerald@zimmerman.net,392.855.4665x90515,germany,3.4,2004
+1063,King-York,mathewaguilar@rangel.biz,(391)848-6528,Vietnam,2.5,1984
+1064,"Cox, Cox and White",matthewmiranda@perez.com,441-888-8059,United States,4.1,2019
+1065,Martin Ltd,jenniferwilliams@rhodes-young.info,+1-947-638-3473x597,USA,4.2,2010
+1066,Shaw-Barnes,lisasolis@salas.info,(881)381-4124x782,Japan,3,2010
+1067,Velasquez LLC,perryrandy@young-vang.com,905.415.2204,India,4.4,2008
+1068,"Harrison, Gilbert and Bullock",scottmary@bentley.com,,germany,2.3,1980
+1069,"Herrera, Chen and Andrews",kellysmith@allen-butler.com,651.288.8880x67065,germany,2.6,2001
+1070,Kramer-Cooper,ingramjill@anderson-bell.com,+1-227-772-2170x4303,France,,2023
+1071,Robertson-Hays,,615-366-7652x775,Japan,4,2001
+1072,"Coleman, Jordan and Carney",amymorris@murphy.com,296.327.5705x964,Mexico,1.9,2002
+1073,"Walsh, Cox and Owen",stephaniethomas@gregory.com,001-455-769-0927x55719,France,2.6,2004
+1074,Edwards-Ramirez,johnsonjacob@hughes.com,001-973-394-7312x172,Australia,3.4,1980
+1075,"Ponce, Downs and Contreras",piercekelly@york-joseph.com,(783)913-2370x589,india,1.8,2023
+1076,"Anderson, Henson and Jones",ukey@fox-hammond.org,425-417-7852,China,2,1976
+1077,Shaw-Oneill,holmeskevin@morris.com,(384)414-3842x498,United States,4.1,
+1078,"David, Moore and Hopkins",megan90@miller.org,,Germany,2.9,1988
+1079,Jones-Brown,dperry@peterson.com,001-355-662-5881x537,China,3.4,1982
+1080,Wright-Davis,sonia96@estes.com,001-953-227-8774,india,3.3,1999
+1081,Landry PLC,nlevy@gomez.info,580-716-2456x5060,Mexico,4.3,2019
+1082,"Roberts, Hughes and Cole",marcia99@anderson.biz,(258)452-3986x800,Vietnam,4.9,1997
+1083,"Cook, Wells and Bryant",markaustin@long.com,001-258-788-7947,Vietnam,2.4,2006
+1084,Nunez-Whitney,laura09@baker-rios.org,001-430-597-2896,Brazil,3.8,2021
+1085,Armstrong Ltd,leescott@hernandez-vaughn.biz,997.702.8385x78652,Vietnam,3.2,2002
+1086,"Gomez, Ingram and Le",chelsea33@grant-walker.com,001-843-775-7584x41986,Australia,4.3,2003
+1087,Roberts LLC,reedscott@burgess-lewis.net,584-221-9933x083,Japan,2.3,1995
+1088,Gutierrez Ltd,xgarcia@smith.com,(877)434-5401x93802,DE,3.8,1975
+1089,Osborn Group,vlopez@mcdowell-smith.org,+1-515-347-8872x874,Germany,4,2016
+1090,Martin-Stevens,jennifer05@bradley-todd.com,,Japan,1.9,1994
+1091,Reyes-Griffin,stephanie49@berry.com,6177426841,Brazil,2.7,1996
+1092,"Walker, Bernard and Mendoza",madkins@perry-dunn.info,001-583-439-1878x51910,Japan,1.5,1982
+1093,Murphy PLC,nwilson@aguilar.com,628.267.9087x406,Mexico,2.9,2023
+1094,"Robinson, Jones and Henderson",weaverbrian@andersen.com,762-326-5676x6182,China,2.2,
+1095,Haney Group,jessicawalker@avila.info,,Canada,1.2,1983
+1096,Harris Inc,griffinemily@sanchez.biz,,Japan,2.1,1996
+1097,Walter-Odom,roberthill@fry.biz,-9691,United States,2.6,2015
+1098,White-Medina,melissaturner@thomas.biz,(588)226-3435x17518,India,5,2023
+1099,Bennett-Jacobs,russojacob@ramsey.com,603-831-7393x6385,Australia,3.1,2003
+1100,Ferguson-Howard,michael77@lang.info,001-853-655-6093x20489,Australia,3.5,2022
+1101,Gonzalez and Sons,phudson@pierce-harding.com,277-272-5228x728,Germany,1.7,1975
+1102,Landry Ltd,duranrobert@hall.net,250.299.7700x886,Mexico,1.9,2019
+1103,"Bowen, Nichols and Mitchell",ldrake@hull.com,739.884.5461,United Kingdom,3.5,1987
+1104,Cunningham-Branch,kevinclayton@valdez.com,366-968-7002,Canada,2.1,1978
+1105,Newman-Rivera,jacobsonsamantha@lewis.org,440.814.8902x5039,China,4.7,2004
+1106,Evans PLC,ashleyatkinson@mosley.com,001-818-750-1631x599,Mexico,3.2,
+1107,Walters Group,jperez@reynolds-frazier.biz,494-831-1426,France,1.1,2018
+1108,Ward-Davis,sean41@miller.info,,Australia,4.1,
+1109,Smith-Gutierrez,hardyanita@armstrong.biz,(824)644-7212,India,1.7,2015
+1110,Evans-Patton,johnathan37@jensen.com,(559)965-7569x2459,United Kingdom,1.4,2001
+1111,Thompson-Sanders,kelly79@nguyen.biz,(619)339-8280x737,China,,1980
+1112,Chambers-Taylor,john26@jones-ewing.info,001-368-386-8058,Brazil,4.5,1975
+1113,Sandoval LLC,deborahwilliams@byrd.biz,,Canada,3.1,2006
+1114,Myers-Barton,michaeljohnson@phillips.com,001-925-745-7387x5717,United States,2.8,
+1115,Evans Ltd,johnsonmatthew@byrd.com,228.525.8673x62266,Vietnam,1.6,2010
+1116,Vargas-Price,jamiegoodwin@ray.com,(853)371-4785x969,Germany,1.5,2006
+1117,Bell-Ellis,lisamccarthy@sellers-lawrence.com,813-841-2528x66929,China,4.3,1990
+1118,Tucker PLC,angelaburns@lopez.org,9508723688,India,4.5,1992
+1119,"Vasquez, Mckinney and Wallace",christopherjohnson@carter.com,-8901,France,,2021
+1120,"Morrow, Richardson and Carson",wolfscott@fritz.com,807-445-1713x3959,Australia,4.5,2005
+1121,"Taylor, Clark and Clark",hudsonamanda@ryan.com,001-448-512-6042,Canada,4.7,2019
+1122,Dawson and Sons,kburns@adams.com,(884)557-7590x1751,France,1.2,2020
+1123,Summers-Simpson,maria58@anderson.com,8175012770,France,4.3,2006
+1124,"Blankenship, Khan and Turner",clarence54@watson.com,9643361103,India,4.5,2008
+1125,Wheeler PLC,ssmith@montoya-mcneil.biz,001-427-813-6111x554,United States,1.6,1991
+1126,May Ltd,caseyelliott@santos.com,,Mexico,2.3,2009
+1127,"Miller, Tran and Greene",kimberly04@holmes.com,001-264-703-7613x7918,Brazil,3,2014
+1128,Anderson-Valencia,rdiaz@farmer.com,001-610-843-0068,Vietnam,1.9,1981
+1129,Miles-Miller,joshuacollins@mccall.com,(291)646-3031x6179,Mexico,3.8,1977
+1130,"Harmon, Yang and Wilson",jacquelinemartin@mills-logan.com,(352)641-0564,United states,2.6,1986
+1131,"Proctor, Burton and Crawford",brian92@moore-ayala.org,+1-213-880-0030x75622,United Kingdom,3,1989
+1132,Morris Group,joseph19@wilson-nunez.com,(738)306-1744,China,4.6,1993
+1133,"Bryant, Wood and Carter",jodi37@vargas-snyder.com,001-883-620-6038x5050,India,2.2,2019
+1134,Harris and Sons,dvasquez@dawson.com,486.857.1918,China,2.9,2011
+1135,Vargas Inc,ibates@carter.biz,001-355-474-3132x912,China,4.9,
+1136,Owens-Russell,tami37@ford-phelps.com,(749)803-5213,Vietnam,4.6,1993
+1137,"Williams, Evans and Wilkins",anthonysullivan@hawkins-pierce.com,612.310.0323x651,Germany,3.5,2021
+1138,Osborn and Sons,flamb@martinez-dunlap.com,(796)567-0662,Vietnam,4.6,1994
+1139,Hill Group,austinharvey@holland.biz,-7046,U.S.A.,2.3,1987
+1140,Casey-Howard,kcooper@morris.org,404.307.8593,Canada,3,1985
+1141,Sandoval LLC,gallagherstacie@bradford.com,(439)555-9059,Japan,4.5,2004
+1142,Weaver-Thompson,davisjesse@smith.com,793-325-2500x29218,India,3.7,2010
+1143,Bush-Bates,,+1-452-289-5392x6442,France,2.8,2018
+1144,"Fry, Myers and Gamble",whitelucas@walker.com,713-655-2157x04331,France,1.4,1976
+1145,Le Inc,akim@wilkerson.biz,(286)717-9327x104,Canada,3.6,2004
+1146,Lynn-Jones,pamelamartin@payne.com,+1-597-506-2962x015,China,,2006
+1147,Terry-Bowen,donna43@williams.net,520.450.6149x7310,Germany,3.7,2009
+1148,"Carter, Miller and Anthony",kristen77@baker.com,(452)370-4774x3490,Mexico,3.6,2014
+1149,Barnett PLC,,(487)393-7416x08989,China,2.8,1998
+1150,Thompson-Joyce,lindseymartinez@miller-vega.com,+1-929-245-1168x6854,Vietnam,3.6,1992
+1151,"Dean, Mills and Barnes",khernandez@aguilar.com,001-914-285-6467,UK,3.6,
+1152,Hill and Sons,vwilliams@young.com,6549447132,Brazil,3.3,2023
+1153,Adams-Butler,lopezjason@figueroa-malone.com,2824148628,Australia,2.3,
+1154,Golden and Sons,wrightstephen@bush-hill.info,761.403.5797x27985,India,1.4,
+1155,Curry-Barker,anthony02@chan.com,,Germany,4,2022
+1156,Woodard-York,dking@byrd-holloway.biz,001-610-385-8994,Japan,1.4,
+1157,Brown-Mcneil,michelle44@hernandez.com,+1-565-720-7446x660,Vietnam,4.9,2005
+1158,"Reeves, Parks and Little",qknox@romero-bruce.net,(341)572-4825,France,4.6,1980
+1159,Walker-Savage,vfrench@green-carter.com,809.299.1738x1684,India,3.2,2013
+1160,Taylor and Sons,robert97@stewart.com,001-917-352-5007x43292,Japan,4.2,2016
+1161,Mendez Ltd,epowell@smith-ferguson.com,6584300335,Canada,2.8,1996
+1162,Reyes PLC,gary04@bryant-meyer.net,,France,2.7,1998
+1163,Richardson Ltd,brooksdanielle@dean.com,,Vietnam,4.3,1981
+1164,Stanley-Bates,cindy26@hunt.com,411-273-9348x3564,Brazil,3.3,1996
+1165,"Crawford, Clark and Fitzpatrick",jimmy01@conley.info,(618)911-4374,France,4,
+1166,Garcia and Sons,phelpsmichael@edwards.com,7227557941,China,3.3,2017
+1167,Wilson Group,ynelson@jefferson.com,920-421-6979,U.K.,3.3,2010
+1168,"James, Howard and Johnson",timothyfreeman@alexander-brown.com,3898935889,Australia,1.1,2019
+1169,"Barber, Olson and Alvarado",jhernandez@brown.info,821.575.3540x8386,India,2.4,1984
+1170,Stevens PLC,fmiller@stewart-hooper.com,666-508-8019,France,4.9,2008
+1171,"Powers, Clements and Cox",velasquezmegan@castro-harvey.info,001-757-311-3055x488,France,2.2,2011
+1172,Prince Group,lydianewton@rodriguez-carr.com,363-973-5160,United States,2.1,2006
+1173,Barrett-Blanchard,tamarasmith@williams.info,529.622.1699x58669,France,1.5,1993
+1174,Stuart-Waller,iballard@morrison-tanner.net,785-383-3394x5228,Australia,1.2,
+1175,Hart-Aguilar,icraig@rich-henderson.com,610.562.0034x24420,germany,2.2,2006
+1176,"Johnson, Cervantes and Garcia",juliahoffman@dixon.com,001-906-566-5800x439,IND,4.3,1979
+1177,"Bush, Holland and Fischer",kimberlybrandt@cole-lucero.com,,Mexico,4.7,2011
+1178,Silva LLC,riverajenna@williams.org,5944798515,France,,1995
+1179,"Jones, Wagner and Perry",odavis@alvarado.com,539-287-8015x7399,Australia,2.4,1981
+1180,"Blackwell, James and Hogan",cruzamber@johnson-black.com,,Australia,4.5,1989
+1181,Santiago and Sons,nhouston@poole.biz,+1-312-507-5011x0248,India,1.8,1997
+1182,Russell-Hayes,bhamilton@nunez-nichols.org,390-615-8144,Vietnam,1.6,2013
+1183,James-Short,wellsamanda@francis.com,+1-824-350-8821x0099,Vietnam,3.5,2011
+1184,Clark-Figueroa,jason82@white.com,612.390.8781,Japan,3.6,1995
+1185,Garcia-Swanson,wlynn@lambert.com,791-735-7759x4929,Vietnam,2.9,1992
+1186,Jackson-Edwards,jenniferdavidson@larsen-taylor.com,577.654.7812x9142,Brazil,2.8,1993
+1187,"Mercado, Jones and Jones",atkinsoncrystal@riley.com,-3697,United Kingdom,3.2,1977
+1188,Mason-Davis,wayne39@martin.com,001-392-675-0373,Australia,2.9,1978
+1189,Young-Barnett,paul70@hooper.com,,Brazil,,2020
+1190,Kaufman-Walker,wgomez@sparks-eaton.com,327.523.1843x22259,Japan,2.5,1999
+1191,Shepherd-Cortez,eleonard@garza.biz,,Brazil,3.5,1996
+1192,Jackson and Sons,kgreene@smith.com,437-497-7236,Vietnam,4.4,2013
+1193,"Keller, Baker and Ramsey",sandra99@hall.com,403-988-6291,Brazil,4.7,2016
+1194,"Greene, Rich and Schmidt",davisdonna@ryan.biz,465.608.6376x59916,France,1.3,2016
+1195,Cannon-Kent,campbellnancy@scott-smith.com,001-781-380-6356,India,3.7,2016
+1196,Simmons PLC,jose86@diaz.com,(488)372-5887x44956,Canada,1.7,2006
+1197,"Hall, Logan and Avery",lewisrichard@owen-mendez.com,(360)612-7961,India,3,2022
+1198,Wood PLC,ramseysarah@mendez-meyer.org,2275703843,United States,3.4,1986
+1199,"Jackson, Johnson and Allen",cantrellchristopher@chan-gomez.biz,(693)580-1184x8955,Australia,2.8,2018
+1200,"Mccarty, Gibson and Powell",greenrichard@hansen.com,918-248-9476x97357,Japan,4.1,1990
+1201,Wilson-Jones,ericahall@gutierrez-gomez.net,4439416518,Japan,3.7,2003
+1202,Gomez-Shannon,ian37@gonzalez.com,933.295.2111,China,2.7,1987
+1203,"Rubio, Charles and Watson",travis94@white-duran.net,,India,2.5,2020
+1204,"Parsons, Bryant and Martinez",astewart@craig.org,655-994-2843,UK,4.3,1989
+1205,"Cooper, White and Coleman",xhaynes@dickerson-ramirez.com,001-829-531-4386,Brazil,2.6,1999
+1206,Marsh Ltd,thomassmith@porter-cowan.net,-9706,Brazil,1.4,1996
+1207,Lewis LLC,,-7192,India,4.3,2005
+1208,Kelly-Nunez,champton@james.info,,USA,3.2,2008
+1209,"Carter, Adams and Newman",pam59@sheppard.com,(334)913-2611,China,2,2014
+1210,"Brown, Wise and Warren",garciachristine@pena.com,234.772.2820,United Kingdom,3.5,2020
+1211,Lin-Mcdonald,,(488)645-7831x74564,France,3.3,2017
+1212,Smith and Sons,justin80@weeks.com,001-464-893-0853x68663,Brazil,3,
+1213,Walker-Miller,zacharymarsh@aguirre.net,963-512-2417x974,Japan,2.5,1997
+1214,Smith-Williams,lopezcurtis@martinez-gonzales.com,912.707.3564,Brazil,1.4,2023
+1215,Terry-Johnson,bridgesstephanie@adams.com,-7818,United States,4.3,2019
+1216,Rojas Inc,stevenwise@wade.com,,India,2.8,1977
+1217,Smith-Bauer,fosterjohn@perkins.info,001-292-751-3271x950,United States,4.3,1977
+1218,"Moore, Herrera and Rodriguez",jhall@sherman.com,6659240778,DE,2.3,1998
+1219,Knight PLC,mario74@rocha.com,744.585.7086x209,France,2.5,2006
+1220,Le-Barrett,rlee@cannon-moore.com,565-311-8102x20317,Brazil,4.2,1980
+1221,Duncan Group,sfox@scott.com,7372170586,IND,2.2,2020
+1222,"Baker, Williams and Jones",christian38@garcia.net,(933)883-9288x6195,Mexico,3.9,2014
+1223,Jackson and Sons,qwagner@ferguson.info,(558)855-6659x398,China,1.2,2000
+1224,"Howe, King and Nixon",amoyer@johnson.com,404-333-5048x8899,Mexico,1.6,
+1225,Stevens and Sons,josephpreston@hall.com,001-369-631-5727,United Kingdom,,1984
+1226,Cross PLC,dmiller@bailey-montoya.biz,739-406-0480,Brazil,3.3,2000
+1227,Shaw-Walker,nunezwendy@mullins-johnston.com,264.862.2517,China,3.9,1999
+1228,Miller-Shaw,kathleencastillo@freeman.org,789.383.3146,United Kingdom,5,2006
+1229,Powers Group,michael55@rios.com,+1-279-527-0335x211,India,2.8,2018
+1230,"Mcintosh, Melton and Wilkins",cooperlinda@cole-johnson.com,001-283-638-8487x9206,Brazil,3.2,1994
+1231,Brown and Sons,brian01@guerrero-alvarado.com,904-363-6815,Mexico,1.7,1989
+1232,Gonzalez Group,williamssandra@cook-long.com,6558543840,Germany,2.4,2004
+1233,Raymond LLC,edwardprince@taylor.org,+1-536-439-2649x5782,Canada,1.3,2020
+1234,"Weaver, Mcbride and Huffman",haley82@forbes-daugherty.com,+1-892-851-8812x5205,Canada,3.3,1995
+1235,Ramos-Peck,edwin31@lopez.org,499-993-9330x517,Japan,1.5,2010
+1236,"Banks, White and Hughes",mtaylor@johnson.com,(233)831-2797x57366,India,4.5,2008
+1237,"Edwards, Carr and Newton",meyershannon@rich.net,-9879,IND,4.6,1991
+1238,Ayala-Mitchell,robertoaustin@vaughn.info,+1-271-481-2982x6657,Canada,3.5,2016
+1239,Garza-Marquez,nicoledavis@holt-meadows.com,001-811-817-5186x892,Australia,3.9,
+1240,Tate LLC,fernandothomas@williams.info,221-923-0940x7778,United States,2.1,2011
+1241,Robinson Ltd,,-1251,Vietnam,3.2,1994
+1242,Nash Ltd,mark10@butler.com,+1-749-899-8279x50145,Vietnam,3.8,2001
+1243,Chang PLC,carterdennis@villarreal.com,001-739-601-9817x946,Germany,2.3,1997
+1244,"Andrews, Hanson and Ho",ostone@vasquez-white.org,843.801.0713,India,2.9,1990
+1245,Cook PLC,alexharris@king-jones.com,785.901.5569x90235,United States,2,1985
+1246,Robles-Brewer,dmoore@huang.com,249.758.8039x55124,Australia,1.6,2004
+1247,Sims-Kirby,hlopez@thornton-edwards.com,,China,2.6,1990
+1248,Strickland Inc,zhunter@stein-moore.com,384.252.1823x0768,Brazil,3.4,2018
+1249,Randolph-Mcdaniel,,7949353344,Canada,1.5,1998
+1250,"Wilson, Hernandez and Hill",mullenanita@clark.net,,Brazil,3.2,1993
+1251,Berger-Williams,bbrown@white-carlson.org,+1-979-354-5381x7921,Canada,4.3,2014
+1252,Collins-Newman,oruiz@callahan.com,(962)955-7701x715,United Kingdom,4.8,1987
+1253,Campbell LLC,williamsullivan@robles.com,,France,1.5,2005
+1254,Jones-Clark,bmueller@cobb.com,001-897-319-9758x1724,India,3.5,2014
+1255,"Rodriguez, Cervantes and Wise",pmurphy@brown.org,001-602-627-8469x97335,China,3,2011
+1256,Robbins-Herman,aguilarcheryl@powell.com,-3087,United States,3.3,2021
+1257,"Flores, Reyes and James",,(842)420-1027,Vietnam,4.9,2012
+1258,Taylor Group,senglish@conrad.biz,-4218,Mexico,3.1,1999
+1259,"Shaw, Jenkins and Payne",arthur09@bush-wilson.info,001-912-384-7818x913,Vietnam,3.8,2003
+1260,"Schultz, Yates and Edwards",bergeramanda@harrison.info,001-656-654-4209,India,3.4,2022
+1261,Soto PLC,ashleydouglas@lamb-weber.com,312.481.4429x4440,Mexico,2.3,2008
+1262,"Stevenson, Hopkins and Wood",josehaynes@white-rose.com,212-692-7663x72395,India,3.7,2018
+1263,Williams Group,ealvarez@vaughan.biz,742.886.0476x5801,Mexico,4.8,1994
+1264,"Hull, Garrison and Rogers",leah49@murray-leonard.com,001-393-385-2580x0106,China,3.8,2005
+1265,"Griffin, Robinson and Campbell",austinharvey@mays.com,+1-611-919-2692x124,Mexico,3.7,2000
+1266,"Mayer, Fowler and Livingston",kayla54@norman.com,(465)904-4271x7396,India,2.4,1991
+1267,Thomas Group,christinarodriguez@baldwin-garcia.com,894-670-7200,Germany,3.8,2014
+1268,Graves Group,robertsonshelby@mendoza-powell.com,-3381,Germany,3.6,2001
+1269,Brown-Shea,diazmelissa@miller-stevens.com,+1-932-580-6346x1571,Japan,1,1985
+1270,Johnson Inc,tracybrown@schneider.info,9054050613,Japan,4.9,
+1271,"Riley, Buckley and Johnson",tracysmith@williams.com,+1-504-317-9291x1179,United Kingdom,,1986
+1272,Simmons Ltd,rnguyen@gardner.com,,India,4.2,2022
+1273,"Williams, Garcia and Boone",bstrickland@miller-smith.com,,China,3.3,1996
+1274,"Holt, Carlson and Love",burtonkimberly@barnes-grant.com,581-695-8837,Vietnam,4.8,2004
+1275,Lee and Sons,kjimenez@livingston.com,(345)397-0108x22078,United Kingdom,,1996
+1276,Griffith PLC,robert53@nguyen.com,001-963-463-1797x0623,Australia,3.4,2000
+1277,Brooks-Ellis,crystalcantrell@rogers.org,5426177625,Canada,1.4,2005
+1278,"Moore, Norton and Cisneros",,797.874.0633,Germany,2.1,2012
+1279,"Walker, Pennington and Shah",butlerbradley@quinn-gordon.biz,667.517.7318x06325,United States,2.9,2018
+1280,"Duarte, Smith and Caldwell",jacquelinehodge@silva.com,001-862-657-0165x804,Mexico,3.6,1998
+1281,"Shah, Daniels and Norton",olivermatthew@robertson.com,4163579055,Germany,5,2019
+1282,"Fletcher, Harris and Zavala",amberbanks@crosby.com,001-335-954-8640x15577,Japan,4.3,2018
+1283,"Patel, Bryan and Lam",zoliver@dougherty.com,471.616.2411,United Kingdom,4.7,2010
+1284,Terry Group,nancymeyer@johnson.com,756.770.4310x3856,Germany,3.1,1988
+1285,Watkins-Terry,kellis@villanueva.com,437-654-0254x729,Japan,4.2,2007
+1286,Mcpherson Ltd,evanwilson@andrews-alexander.com,(438)605-5257,Australia,4.2,2000
+1287,Knapp Group,dmack@moore-cordova.net,354.674.9297x51702,U.S.A.,3.8,1978
+1288,Morales and Sons,uhoward@franklin.org,234.730.1871x86375,UK,4.1,2021
+1289,Hernandez-Nash,paul04@bell-madden.net,437-367-4266,France,2.8,1999
+1290,Clark Group,carl96@smith.com,(628)979-2326x48704,Vietnam,1.5,1982
+1291,"Singh, Walker and Moody",joseblanchard@kennedy.biz,(773)901-4719,Canada,4.9,
+1292,"Graham, Scott and Jennings",brooksjessica@bruce.org,7258725204,China,2.7,1989
+1293,"Barr, Kelly and Roberts",palmerkatie@duran.com,-6387,Brazil,4.5,1977
+1294,Taylor LLC,kimberly65@garcia.net,938.398.8816,France,4.6,1979
+1295,Fuentes Inc,sbailey@taylor-ramos.org,352.840.1322x34232,United States,,2003
+1296,"Hines, Rodriguez and Smith",ctodd@rodriguez.net,001-307-314-0140,germany,1.9,2011
+1297,"Harris, Santana and Lopez",anthony24@bailey.org,589.611.9083,Australia,1.9,2017
+1298,Winters PLC,beltrancorey@knapp.info,,France,4.8,1986
+1299,Martinez-Rodriguez,tylerward@hawkins-williams.com,,France,2.4,1999
+1300,Crosby-Richardson,lutztravis@sanders.com,526-769-1215,Brazil,2.2,2009
+1301,Kaufman-Walker,wgomez@sparks-eaton.com,327.523.1843x22259,Japan,2.5,1999
+1302,"Blankenship, Khan and Turner",clarence54@watson.com,9643361103,India,4.5,2008
+1303,Jackson-Edwards,jenniferdavidson@larsen-taylor.com,577.654.7812x9142,Brazil,2.8,1993
+1304,Smith-Williams,lopezcurtis@martinez-gonzales.com,912.707.3564,Brazil,1.4,2023
+1305,Walters Group,jperez@reynolds-frazier.biz,494-831-1426,France,1.1,2018
+1306,Anderson-Valencia,rdiaz@farmer.com,001-610-843-0068,Vietnam,1.9,1981

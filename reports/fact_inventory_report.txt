@@ -1,0 +1,209 @@
+
+FACT INVENTORY - ANALYTICAL REPORT
+===================================
+
+GRAIN
+-----
+One row represents one inventory record.
+
+SOURCE TABLES
+-------------
+Inventory
+Products
+Warehouses
+
+ROW COUNTS
+----------
+Inventory before transformation: 3005
+
+Rows after Product join: 3005
+
+Rows after Warehouse join: 3005
+
+Final fact_inventory rows: 3005
+
+Expected final rows: 3005
+
+Row multiplication:
+0
+
+
+INVENTORY ID VALIDATION
+-----------------------
+
+Missing inventory IDs: 0
+Duplicate inventory IDs: 0
+
+
+WAREHOUSE RELATIONSHIP
+----------------------
+
+Unmatched warehouse references:
+0
+
+
+PRODUCT RELATIONSHIP
+--------------------
+
+Unmatched product references:
+0
+
+
+BUSINESS KEY
+------------
+
+Business key:
+warehouse_id + product_id
+
+Duplicate business-key groups:
+5
+
+Rows involved:
+10
+
+These records were preserved.
+
+
+STOCK QUANTITY
+--------------
+
+Missing stock: 86
+Zero stock: 1
+Negative stock: 0
+Positive stock: 2918
+
+Minimum stock:
+0.0
+
+Maximum stock:
+49091.0
+
+
+REORDER LEVEL
+-------------
+
+Missing reorder levels: 138
+Zero reorder levels: 0
+Negative reorder levels: 0
+Positive reorder levels: 2867
+
+Minimum reorder level:
+10.0
+
+Maximum reorder level:
+500.0
+
+
+STOCK VS REORDER LEVEL
+----------------------
+
+Below Reorder Level:
+208
+
+At Reorder Level:
+1
+
+Above Reorder Level:
+2576
+
+Cannot Determine:
+220
+
+
+RESTOCK DATE
+------------
+
+Missing restock dates:
+0
+
+Future restock dates:
+9
+
+Earliest restock date:
+2025-01-10 00:00:00
+
+Latest restock date:
+2026-12-08 00:00:00
+
+
+PRODUCT ENRICHMENT
+------------------
+
+Product columns added:
+
+product_name
+category
+unit_price
+is_active
+
+
+WAREHOUSE ENRICHMENT
+--------------------
+
+Warehouse columns added:
+
+warehouse_name
+location
+capacity_units
+
+
+SOURCE VALUES PRESERVED
+-----------------------
+
+No source inventory values were overwritten.
+Missing stock values were not filled.
+Missing reorder levels were not filled.
+Missing dates were not invented.
+No inventory records were intentionally deleted.
+
+
+ANALYTICAL COLUMNS
+------------------
+
+stock_status
+restock_date_status
+business_key_status
+inventory_key_status
+
+
+FEATURE ENGINEERING NOT CREATED
+-------------------------------
+
+No stock value created.
+No inventory turnover created.
+No days of inventory created.
+No reorder flag created.
+No stock risk score created.
+No inventory health score created.
+No ABC classification created.
+No warehouse utilization created.
+
+
+FINAL VALIDATION
+----------------
+
+Final rows = source rows:
+True
+
+Final duplicate inventory IDs:
+0
+
+Final missing inventory IDs:
+0
+
+Final unmatched warehouse references:
+0
+
+Final unmatched product references:
+0
+
+Final negative stock values:
+0
+
+Final negative reorder levels:
+0
+
+
+FINAL STATUS
+------------
+PASS WITH WARNINGS

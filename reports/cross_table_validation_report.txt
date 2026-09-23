@@ -1,0 +1,143 @@
+                                                                                                                                                                                                 ..
+CROSS-TABLE VALIDATION REPORT
+=============================
+
+TABLE COUNTS
+------------
+Suppliers: 306
+Products: 1510
+Warehouses: 40
+Customers: 3015
+Orders: 12040
+Order Details: 25000
+Inventory: 3005
+Shipments: 5160
+
+FOREIGN KEY VALIDATION
+----------------------
+
+Products -> Suppliers
+Unmatched supplier IDs: 7
+Values: [np.int64(9026), np.int64(9049), np.int64(9035), np.int64(9033), np.int64(9008), np.int64(9024), np.int64(9015)]
+
+Orders -> Customers
+Unmatched customer IDs: 1
+Values: [np.int64(999008)]
+
+Orders -> Warehouses
+Unmatched warehouse IDs: 0
+Values: []
+
+Order Details -> Orders
+Unmatched order IDs: 3
+Values: [np.int64(6000005), np.int64(6000001), np.int64(6000010)]
+
+Order Details -> Products
+Unmatched product IDs: 0
+Values: []
+
+Inventory -> Warehouses
+Unmatched warehouse IDs: 0
+Values: []
+
+Inventory -> Products
+Unmatched product IDs: 0
+Values: []
+
+Shipments -> Orders
+Unmatched order IDs: 0
+Values: []
+
+ORDER COVERAGE
+--------------
+Orders with order details: 10510
+Orders without order details: 1530
+
+Orders with shipments: 4191
+Orders without shipments: 7849
+
+ORDER STATUS VS DETAILS
+-----------------------
+has_details   False  True 
+order_status              
+Cancelled       187   1290
+Delivered       373   2502
+Pending         398   2731
+Returned        190   1333
+Shipped         382   2654
+
+ORDER STATUS VS SHIPMENTS
+-------------------------
+has_shipment  False  True 
+order_status              
+Cancelled       958    519
+Delivered      1900    975
+Pending        2024   1105
+Returned        969    554
+Shipped        1998   1038
+
+SHIPMENT COVERAGE BY ORDER STATUS (%)
+-------------------------------------
+order_status
+Cancelled    35.14
+Delivered    33.91
+Pending      35.31
+Returned     36.38
+Shipped      34.19
+
+DATE VALIDATION
+---------------
+
+Orders before customer signup: 50
+
+Ship dates before order dates: 195
+
+Shipment dates before order dates: 75
+
+Delivery dates before shipment dates: 85
+
+These cases are reported only.
+No records were deleted.
+
+FINANCIAL RECONCILIATION
+------------------------
+Orders with comparable order_total and line_total sum:
+9965
+
+Financial matches within 0.01:
+9965
+
+Financial mismatches:
+0
+
+PRODUCT / INVENTORY COVERAGE
+----------------------------
+Products with inventory records: 1332
+Products without inventory records: 178
+
+SUPPLIER / PRODUCT COVERAGE
+---------------------------
+Suppliers referenced by products: 298
+Suppliers without product references: 8
+
+INVENTORY BUSINESS KEY
+----------------------
+Duplicate (warehouse_id, product_id) groups:
+5
+
+These were not automatically deleted.
+
+FINAL OBSERVATIONS
+------------------
+1. Foreign-key exceptions must be investigated before database
+   constraints are finalized.
+2. Missing shipments/details are reported by status rather than
+   automatically treated as errors.
+3. Date anomalies are preserved for investigation.
+4. Financial reconciliation is based on existing source values.
+5. No feature engineering was performed.
+6. No source CSV was modified.
+
+FINAL STATUS
+------------
+PASS WITH WARNINGS

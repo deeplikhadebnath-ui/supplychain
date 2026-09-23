@@ -1,0 +1,103 @@
+
+INVENTORY CLEANING REPORT
+=========================
+
+Dataset: 07_inventory.csv
+
+Rows before cleaning: 3005
+Rows after cleaning: 3005
+
+COLUMNS
+-------
+inventory_id, warehouse_id, product_id, stock_quantity, reorder_level, last_restock_date
+
+MISSING VALUES
+--------------
+inventory_id           0
+warehouse_id           0
+product_id             0
+stock_quantity        86
+reorder_level        138
+last_restock_date      0
+
+DUPLICATE ANALYSIS
+------------------
+Exact duplicate rows: 0
+Duplicate inventory IDs: 0
+Duplicate warehouse/product groups: 5
+Rows involved in warehouse/product duplicates: 10
+
+WAREHOUSE FOREIGN KEY VALIDATION
+--------------------------------
+Missing warehouse IDs: 0
+Unmatched warehouse IDs: 0
+
+PRODUCT FOREIGN KEY VALIDATION
+------------------------------
+Missing product IDs: 0
+Unmatched product IDs: 0
+
+STOCK QUANTITY VALIDATION
+-------------------------
+Missing stock values: 86
+Negative stock values: 0
+Zero stock values: 1
+Minimum stock: 0.0
+Maximum stock: 49091.0
+
+REORDER LEVEL VALIDATION
+------------------------
+Missing reorder levels: 138
+Negative reorder levels: 0
+Zero reorder levels: 0
+Minimum reorder level: 10.0
+Maximum reorder level: 500.0
+
+LAST RESTOCK DATE
+-----------------
+Missing dates before parsing: 0
+Unparseable dates: 0
+Future dates: 9
+
+Date parsing method:
+pd.to_datetime(format="mixed", dayfirst=True, errors="coerce")
+
+Final date format:
+YYYY-MM-DD
+
+WAREHOUSE/PRODUCT DUPLICATES
+----------------------------
+Duplicate warehouse/product groups found:
+5
+
+These records were preserved.
+No duplicate warehouse/product records were automatically deleted.
+
+RECORD CHANGES
+--------------
+Records removed: 0
+Missing stock values were not filled.
+Missing reorder levels were not filled.
+Missing dates were not invented.
+Suspicious records were preserved.
+
+RECORDS FLAGGED
+---------------
+Warehouse/product duplicate groups: 5
+Future restock dates: 9
+Unmatched warehouse IDs: 0
+Unmatched product IDs: 0
+
+FINAL VALIDATION
+----------------
+Final duplicate inventory IDs: 0
+Final missing inventory IDs: 0
+Final unmatched warehouse references: 0
+Final unmatched product references: 0
+Final negative stock values: 0
+Final negative reorder levels: 0
+Unparseable restock dates: 0
+
+FINAL STATUS
+------------
+PASS WITH WARNINGS

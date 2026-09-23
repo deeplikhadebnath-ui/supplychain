@@ -1,0 +1,182 @@
+CUSTOMER DIMENSION - ANALYTICAL REPORT
+======================================
+
+GRAIN
+-----
+One row represents one customer.
+
+
+SOURCE
+------
+Customers
+Orders
+
+
+ROW COUNTS
+----------
+Customers before transformation:
+3015
+
+Orders used for customer enrichment:
+12040
+
+Final dim_customer rows:
+3015
+
+
+CUSTOMER ID VALIDATION
+----------------------
+Missing customer IDs:
+0
+
+Duplicate customer IDs:
+0
+
+
+MISSING VALUES
+--------------
+Missing email:
+209
+
+Missing segment:
+282
+
+Missing signup date:
+0
+
+
+CUSTOMER DUPLICATES
+-------------------
+Repeated customer-name rows:
+153
+
+Repeated email rows:
+64
+
+These records were preserved.
+
+
+SEGMENT VALUES
+--------------
+segment
+Retail       703
+Wholesale    680
+Corporate    675
+Online       675
+NaN          282
+
+
+COUNTRY VALUES
+--------------
+country
+Germany           275
+United Kingdom    267
+Australia         264
+India             253
+France            249
+Mexico            247
+China             247
+Vietnam           246
+Japan             244
+United States     243
+Brazil            241
+Canada            239
+
+
+ORDER COVERAGE
+--------------
+Customers with orders:
+2940
+
+Customers without orders:
+75
+
+Orders linked to known customer IDs:
+12039
+
+
+CUSTOMER ORDER METRICS
+----------------------
+Customers with at least one order:
+2940
+
+Maximum orders by one customer:
+11
+
+Average orders per customer:
+3.99
+
+
+SIGNUP / ORDER DATE VALIDATION
+------------------------------
+First Order Before Signup:
+38
+
+Cannot Determine:
+75
+
+Valid:
+2902
+
+
+ANALYTICAL COLUMNS CREATED
+--------------------------
+order_count
+first_order_date
+last_order_date
+has_orders
+signup_to_first_order_days
+signup_order_date_status
+
+
+SOURCE VALUES PRESERVED
+-----------------------
+customer_id preserved
+customer_name preserved
+email preserved
+country preserved
+segment preserved
+signup_date preserved
+
+No customer records intentionally deleted.
+No missing customer attributes were invented.
+Repeated names were not merged.
+Repeated emails were not merged.
+
+
+FEATURE ENGINEERING
+-------------------
+Advanced feature engineering was intentionally not created.
+
+Not created:
+- Customer lifetime value
+- Customer churn score
+- Customer score
+- Customer tier
+- RFM score
+- Customer risk score
+
+These will be handled later using documented business definitions.
+
+
+FINAL VALIDATION
+----------------
+Source rows = Final rows:
+True
+
+Final duplicate customer IDs:
+0
+
+Final missing customer IDs:
+0
+
+Invalid segments:
+0
+
+First order before signup:
+38
+
+
+FINAL STATUS
+------------
+PASS WITH WARNINGS

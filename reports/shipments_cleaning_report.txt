@@ -1,0 +1,106 @@
+
+SHIPMENT CLEANING REPORT
+========================
+
+Rows before cleaning: 5160
+Rows after cleaning: 5160
+
+COLUMNS
+-------
+shipment_id, order_id, carrier, shipment_date, delivery_date, shipping_cost, distance_km
+
+MISSING VALUES
+--------------
+shipment_id        0
+order_id           0
+carrier            0
+shipment_date    588
+delivery_date    882
+shipping_cost    262
+distance_km      253
+
+SHIPMENT ID VALIDATION
+----------------------
+Missing shipment IDs: 0
+Duplicate shipment IDs: 0
+
+ORDER ID VALIDATION
+-------------------
+Missing order IDs: 0
+Repeated order ID rows: 969
+
+CARRIER STANDARDIZATION
+-----------------------
+fedex -> FedEx
+FedEx -> FedEx
+
+DHL and DHL Express were kept separate.
+
+CARRIER VALUES
+--------------
+carrier
+FedEx          1528
+DHL             742
+Maersk          736
+UPS             734
+DHL Express     711
+Blue Dart       709
+
+SHIPMENT DATE
+-------------
+Missing shipment dates before parsing: 588
+Unparseable shipment dates: 0
+Format used: mixed
+Standard output format: YYYY-MM-DD
+
+DELIVERY DATE
+-------------
+Missing delivery dates before parsing: 882
+Unparseable delivery dates: 0
+Format used: mixed
+Standard output format: YYYY-MM-DD
+
+DATE RELATIONSHIP
+-----------------
+Delivery before shipment: 85
+Shipment missing + delivery present: 0
+Shipment present + delivery missing: 294
+Both dates missing: 588
+
+Reversed dates were preserved and not automatically deleted.
+
+SHIPPING COST
+-------------
+Missing shipping costs: 262
+Zero shipping costs: 0
+Negative shipping costs: 0
+
+DISTANCE
+--------
+Missing distances: 253
+Zero distances: 0
+Negative distances: 0
+
+DUPLICATE ANALYSIS
+------------------
+Complete duplicate rows: 0
+Duplicate shipment IDs: 0
+Repeated order IDs are not treated as duplicates because one order
+can have multiple shipment records.
+
+RECORD CHANGES
+--------------
+Records removed: 0
+Missing values were not artificially filled.
+Suspicious records were not automatically deleted.
+
+FINAL VALIDATION
+----------------
+Final duplicate shipment IDs: 0
+Final missing shipment IDs: 0
+Final invalid negative shipping costs: 0
+Final invalid negative distances: 0
+
+FINAL STATUS
+------------
+PASS WITH WARNINGS

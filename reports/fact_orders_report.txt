@@ -1,0 +1,159 @@
+
+FACT ORDERS - ANALYTICAL REPORT
+===============================
+
+GRAIN
+-----
+One row represents one order.
+
+SOURCE TABLES
+-------------
+Orders
+Order Details
+Shipments
+Customers
+
+ROW COUNTS
+----------
+Orders before transformation: 12040
+
+Rows after Order Details summary join: 12040
+
+Rows after Shipment summary join: 12040
+
+Final fact_orders rows: 12040
+
+Expected final rows: 12040
+
+
+ORDER DETAIL SUMMARY
+--------------------
+
+Orders with Order Details: 10510
+Orders without Order Details: 1530
+
+Order detail row count:
+Minimum: 1.0
+Maximum: 9.0
+Average: 2.3784015223596575
+
+
+FINANCIAL RECONCILIATION
+------------------------
+
+Comparable / matched: 9965
+Mismatches: 0
+
+Missing source order_total but detail total available:
+420
+
+Cannot calculate:
+1655
+
+Formula for calculated_order_total:
+
+SUM(Order Details.line_total) grouped by order_id
+
+Financial matching tolerance:
+
+ABS(source_order_total - calculated_order_total) <= 0.01
+
+
+SHIPMENT SUMMARY
+----------------
+
+Orders with shipment: 4191
+Orders without shipment: 7849
+Orders with multiple shipments: 826
+
+
+CUSTOMER VALIDATION
+-------------------
+
+Missing customer references: 0
+Unmatched customer references: 1
+
+
+QUANTITY ANALYSIS
+-----------------
+
+Positive net quantity orders:
+10414
+
+Negative net quantity orders:
+94
+
+Zero net quantity orders:
+2
+
+
+DATE VALIDATION
+---------------
+
+Ship date before order date:
+195
+
+
+PRIMARY KEY VALIDATION
+----------------------
+
+Duplicate order IDs: 0
+Missing order IDs: 0
+
+
+SOURCE VALUES PRESERVED
+-----------------------
+
+source_order_total preserves the original order_total.
+
+No source values were overwritten.
+
+No records were intentionally deleted.
+
+
+ANALYTICAL COLUMNS
+------------------
+
+detail_row_count
+total_quantity
+calculated_order_total
+order_total_difference
+order_financial_status
+shipment_count
+has_shipment
+detail_status
+customer_status
+quantity_status
+date_status
+
+
+FEATURE ENGINEERING
+-------------------
+
+No customer-level RFM metrics created.
+No customer lifetime value created.
+No product-level metrics created.
+No supplier performance metrics created.
+No inventory metrics created.
+No shipment performance metrics created.
+
+
+FINAL VALIDATION
+----------------
+
+Final rows = source rows:
+True
+
+Duplicate order IDs:
+0
+
+Missing order IDs:
+0
+
+Financial mismatches:
+0
+
+
+FINAL STATUS
+------------
+PASS WITH WARNINGS

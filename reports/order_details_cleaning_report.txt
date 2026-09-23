@@ -1,0 +1,118 @@
+ORDER DETAILS CLEANING REPORT
+=============================
+
+Rows before cleaning: 25000
+Rows after cleaning: 25000
+
+ORIGINAL COLUMNS
+----------------
+order_detail_id, order_id, product_id, quantity, discount_pct, line_total
+
+FINAL COLUMNS
+-------------
+order_detail_id, order_id, product_id, quantity, discount_pct, line_total
+
+STRUCTURAL COLUMNS REMOVED
+--------------------------
+Unnamed: 6, Unnamed: 7, Unnamed: 8, Unnamed: 9, Unnamed: 10, Unnamed: 11, Unnamed: 12
+
+MISSING VALUES
+--------------
+order_detail_id       0
+order_id              0
+product_id            0
+quantity              0
+discount_pct       1962
+line_total         1020
+
+ORDER DETAIL ID VALIDATION
+--------------------------
+Missing IDs: 0
+Duplicate IDs: 0
+
+ORDER ID FK VALIDATION
+----------------------
+Missing order IDs: 0
+Unmatched order references: 3
+ order_detail_id  order_id
+          800931   6000005
+          807025   6000001
+          821015   6000010
+
+PRODUCT ID FK VALIDATION
+------------------------
+Missing product IDs: 0
+Unmatched product references: 0
+
+QUANTITY VALIDATION
+-------------------
+Missing quantity: 0
+Zero quantity: 0
+Negative quantity: 500
+
+NEGATIVE TRANSACTION VALIDATION
+-------------------------------
+Negative quantity + positive line total: 0
+Positive quantity + negative line total: 0
+
+DISCOUNT VALIDATION
+-------------------
+Missing discount: 1962
+Invalid discount values: 0
+Valid range: 0% to 100%
+
+DISCOUNT RECONSTRUCTION REVIEW
+------------------------------
+Rows where missing discount could potentially be reconstructed: 1817
+Rows with invalid implied discount: 1
+
+LINE TOTAL VALIDATION
+---------------------
+Missing line totals: 1020
+Zero line totals: 0
+Negative line totals: 477
+
+MISSING LINE-TOTAL CLASSIFICATION
+---------------------------------
+Price known + discount known: 917
+Price known + discount missing: 73
+Price missing + discount known: 28
+Price missing + discount missing: 2
+
+FORMULA VALIDATION
+------------------
+Formula: unit_price × quantity × (1 - discount_pct / 100)
+Comparable rows: 21328
+Matching rows (within 0.01): 21328
+Mismatched rows: 0
+Maximum difference: 0.005000000004656613
+
+DUPLICATE ANALYSIS
+------------------
+Complete duplicate rows: 0
+Duplicate order_detail_id: 0
+Duplicate order/product groups: 12
+Rows involved in duplicate order/product groups: 24
+
+RECORD CHANGES
+--------------
+Records removed: 0
+Source financial values overwritten: 0
+
+UNRESOLVED ISSUES
+-----------------
+Unmatched order references: 3
+Missing discounts: 1962
+Missing line totals: 1020
+Negative quantity transactions: 500
+Duplicate order/product groups requiring review: 12
+
+FINAL VALIDATION
+----------------
+Final duplicate order_detail_id: 0
+Final missing order_detail_id: 0
+Invalid discount values: 0
+
+FINAL STATUS
+------------
+PASS WITH WARNINGS

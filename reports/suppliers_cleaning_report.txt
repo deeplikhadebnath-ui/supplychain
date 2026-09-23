@@ -1,0 +1,144 @@
+SUPPLIER CLEANING REPORT
+========================
+
+Rows before cleaning: 306
+Rows after cleaning: 306
+
+ORIGINAL COLUMNS
+----------------
+supplier_id, supplier_name, contact_email, phone, country, rating, established_year
+
+FINAL COLUMNS
+-------------
+supplier_id, supplier_name, contact_email, phone, country, rating, established_year
+
+MISSING VALUES
+--------------
+supplier_id          0
+supplier_name        0
+contact_email       11
+phone               30
+country              0
+rating              12
+established_year    19
+
+DUPLICATE ANALYSIS
+------------------
+Exact duplicate rows: 0
+Duplicate supplier IDs: 0
+Duplicate supplier-name rows: 20
+Strong entity-duplicate rows: 12
+
+REPEATED SUPPLIER NAMES
+-----------------------
+ supplier_id                supplier_name country
+        1128            Anderson-Valencia Vietnam
+        1306            Anderson-Valencia Vietnam
+        1124 Blankenship, Khan and Turner   India
+        1302 Blankenship, Khan and Turner   India
+        1192             Jackson and Sons Vietnam
+        1223             Jackson and Sons   China
+        1186              Jackson-Edwards  Brazil
+        1303              Jackson-Edwards  Brazil
+        1190               Kaufman-Walker   Japan
+        1301               Kaufman-Walker   Japan
+        1017                   Landry Ltd  Mexico
+        1102                   Landry Ltd  Mexico
+        1113                 Sandoval LLC  Canada
+        1141                 Sandoval LLC   Japan
+        1214               Smith-Williams  Brazil
+        1304               Smith-Williams  Brazil
+        1107                Walters Group  France
+        1305                Walters Group  France
+        1033                 Wilson-Jones  Canada
+        1201                 Wilson-Jones   Japan
+
+STRONG ENTITY DUPLICATES
+------------------------
+ supplier_id                supplier_name                      contact_email              phone country  rating  established_year
+        1128            Anderson-Valencia                   rdiaz@farmer.com   001-610-843-0068 Vietnam     1.9            1981.0
+        1306            Anderson-Valencia                   rdiaz@farmer.com   001-610-843-0068 Vietnam     1.9            1981.0
+        1124 Blankenship, Khan and Turner              clarence54@watson.com         9643361103   India     4.5            2008.0
+        1302 Blankenship, Khan and Turner              clarence54@watson.com         9643361103   India     4.5            2008.0
+        1186              Jackson-Edwards jenniferdavidson@larsen-taylor.com  577.654.7812x9142  Brazil     2.8            1993.0
+        1303              Jackson-Edwards jenniferdavidson@larsen-taylor.com  577.654.7812x9142  Brazil     2.8            1993.0
+        1190               Kaufman-Walker            wgomez@sparks-eaton.com 327.523.1843x22259   Japan     2.5            1999.0
+        1301               Kaufman-Walker            wgomez@sparks-eaton.com 327.523.1843x22259   Japan     2.5            1999.0
+        1214               Smith-Williams  lopezcurtis@martinez-gonzales.com       912.707.3564  Brazil     1.4            2023.0
+        1304               Smith-Williams  lopezcurtis@martinez-gonzales.com       912.707.3564  Brazil     1.4            2023.0
+        1107                Walters Group        jperez@reynolds-frazier.biz       494-831-1426  France     1.1            2018.0
+        1305                Walters Group        jperez@reynolds-frazier.biz       494-831-1426  France     1.1            2018.0
+
+COUNTRY STANDARDIZATION
+-----------------------
+USA / U.S.A. / United states -> United States
+UK / U.K. / england -> United Kingdom
+germany / DE -> Germany
+india / IND -> India
+
+EMAIL VALIDATION
+----------------
+Missing contact emails: 11
+Invalid contact emails: 0
+Duplicate contact-email rows: 12
+
+Duplicate contact emails:
+ supplier_id                supplier_name                      contact_email
+        1124 Blankenship, Khan and Turner              clarence54@watson.com
+        1302 Blankenship, Khan and Turner              clarence54@watson.com
+        1186              Jackson-Edwards jenniferdavidson@larsen-taylor.com
+        1303              Jackson-Edwards jenniferdavidson@larsen-taylor.com
+        1107                Walters Group        jperez@reynolds-frazier.biz
+        1305                Walters Group        jperez@reynolds-frazier.biz
+        1214               Smith-Williams  lopezcurtis@martinez-gonzales.com
+        1304               Smith-Williams  lopezcurtis@martinez-gonzales.com
+        1128            Anderson-Valencia                   rdiaz@farmer.com
+        1306            Anderson-Valencia                   rdiaz@farmer.com
+        1190               Kaufman-Walker            wgomez@sparks-eaton.com
+        1301               Kaufman-Walker            wgomez@sparks-eaton.com
+
+PHONE VALIDATION
+----------------
+Missing phones: 30
+Duplicate phone rows: 12
+
+RATING VALIDATION
+-----------------
+Missing ratings: 12
+Invalid ratings: 0
+Expected range: 1 to 5
+
+ESTABLISHED YEAR VALIDATION
+---------------------------
+Missing established years: 19
+Invalid established years: 0
+Expected range: 1800 to current year
+
+RECORD CHANGES
+--------------
+Records removed: 0
+Missing values were not artificially filled.
+Suspicious records were not automatically deleted.
+
+FINAL VALIDATION
+----------------
+Final duplicate supplier IDs: 0
+Final missing supplier IDs: 0
+Final missing supplier names: 0
+Final invalid contact emails: 0
+Final invalid ratings: 0
+Final invalid established years: 0
+
+UNRESOLVED ISSUES
+-----------------
+Missing contact emails: 11
+Missing phones: 30
+Missing ratings: 12
+Missing established years: 19
+Duplicate contact-email rows: 12
+Duplicate phone rows: 12
+Strong entity-duplicate rows: 12
+
+FINAL STATUS
+------------
+PASS WITH WARNINGS

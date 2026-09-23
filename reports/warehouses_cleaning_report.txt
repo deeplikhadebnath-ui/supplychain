@@ -1,0 +1,83 @@
+WAREHOUSE CLEANING REPORT
+=========================
+
+Rows before cleaning: 40
+Rows after cleaning: 40
+
+ORIGINAL COLUMNS
+----------------
+warehouse_id, warehouse_name, location, capacity_units, manager
+
+FINAL COLUMNS
+-------------
+warehouse_id, warehouse_name, location, capacity_units, manager
+
+MISSING VALUES
+--------------
+warehouse_id      0
+warehouse_name    0
+location          0
+capacity_units    0
+manager           2
+
+DUPLICATE ANALYSIS
+------------------
+Exact duplicate rows: 0
+Duplicate warehouse IDs: 0
+Duplicate warehouse names: 0
+
+WAREHOUSE ID VALIDATION
+-----------------------
+Missing warehouse IDs: 0
+Duplicate warehouse IDs: 0
+Invalid warehouse IDs: 0
+
+WAREHOUSE NAME VALIDATION
+-------------------------
+Missing names: 0
+Blank names: 0
+Duplicate names: 0
+
+LOCATION STANDARDIZATION
+-----------------------
+IND -> India
+germany -> Germany
+U.K. -> United Kingdom
+
+CAPACITY VALIDATION
+-------------------
+Missing capacity: 0
+Zero capacity: 0
+Negative capacity: 0
+Non-integer capacity: 0
+
+MANAGER VALIDATION
+------------------
+Missing managers: 2
+Warehouse IDs with missing manager: 509, 539
+
+RECORD CHANGES
+--------------
+Records removed: 0
+Records intentionally deleted: 0
+
+FINAL VALIDATION
+----------------
+Final missing warehouse IDs: 0
+Final duplicate warehouse IDs: 0
+Final missing warehouse names: 0
+Final blank warehouse names: 0
+Final missing capacity: 0
+Final zero capacity: 0
+Final negative capacity: 0
+Final missing managers: 2
+
+UNRESOLVED ISSUES
+-----------------
+Missing managers: 2
+Duplicate warehouse names: 0
+Exact duplicate rows: 0
+
+FINAL STATUS
+------------
+PASS WITH WARNINGS

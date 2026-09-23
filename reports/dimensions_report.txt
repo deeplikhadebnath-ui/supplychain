@@ -1,0 +1,135 @@
+MASTER DIMENSIONS - ANALYTICAL REPORT
+=====================================
+
+
+DIM PRODUCT
+-----------
+
+Source rows:
+1510
+
+Final rows:
+1510
+
+Missing product IDs:
+0
+
+Duplicate product IDs:
+0
+
+Missing supplier reference:
+0
+
+Unmatched supplier reference:
+7
+
+Products with inventory:
+1332
+
+Products without inventory:
+178
+
+Columns:
+product_id, product_name, category, supplier_id, unit_price, weight_kg, is_active, supplier_name, country, rating, supplier_status, inventory_record_count, has_inventory
+
+
+DIM SUPPLIER
+------------
+
+Source rows:
+306
+
+Final rows:
+306
+
+Missing supplier IDs:
+0
+
+Duplicate supplier IDs:
+0
+
+Suppliers with products:
+298
+
+Suppliers without products:
+8
+
+Columns:
+supplier_id, supplier_name, contact_email, phone, country, rating, established_year, product_count, has_products
+
+
+DIM WAREHOUSE
+-------------
+
+Source rows:
+40
+
+Final rows:
+40
+
+Missing warehouse IDs:
+0
+
+Duplicate warehouse IDs:
+0
+
+Warehouses with inventory:
+40
+
+Warehouses without inventory:
+0
+
+Columns:
+warehouse_id, warehouse_name, location, capacity_units, manager, inventory_record_count, product_count, has_inventory
+
+
+INVENTORY SOURCE
+----------------
+
+Inventory rows used for enrichment:
+3005
+
+
+SOURCE VALUES
+-------------
+
+No source product values were intentionally overwritten.
+No source supplier values were intentionally overwritten.
+No source warehouse values were intentionally overwritten.
+
+No master records were intentionally deleted.
+
+
+ADVANCED FEATURE ENGINEERING
+----------------------------
+
+Not created at this stage:
+
+- Product profitability
+- Product ABC classification
+- Supplier performance score
+- Supplier risk score
+- Warehouse utilization
+- Warehouse capacity utilization score
+- Inventory turnover
+- Customer/product/supplier risk scores
+
+These belong to the later feature-engineering layer.
+
+
+FINAL VALIDATION
+----------------
+
+Product dimension:
+PASS
+
+Supplier dimension:
+PASS
+
+Warehouse dimension:
+PASS
+
+
+OVERALL STATUS
+--------------
+PASS

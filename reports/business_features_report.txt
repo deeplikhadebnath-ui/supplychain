@@ -1,0 +1,257 @@
+SUPPLY CHAIN INTELLIGENCE
+BUSINESS FEATURE ENGINEERING REPORT
+===================================
+
+
+OUTPUTS
+-------
+order_features.csv
+customer_features.csv
+product_features.csv
+supplier_features.csv
+warehouse_features.csv
+carrier_features.csv
+business_daily_metrics.csv
+
+
+GRAIN
+-----
+order_features          = 1 row per order
+customer_features       = 1 row per customer
+product_features        = 1 row per product
+supplier_features       = 1 row per supplier
+warehouse_features      = 1 row per warehouse
+carrier_features        = 1 row per carrier
+business_daily_metrics  = 1 row per date
+
+
+ROW COUNTS
+----------
+Order features:
+12040
+
+Customer features:
+3015
+
+Product features:
+1510
+
+Supplier features:
+306
+
+Warehouse features:
+40
+
+Carrier features:
+6
+
+Daily metrics:
+1957
+
+
+EXECUTIVE COMMERCIAL METRICS
+----------------------------
+Gross Sales:
+706,785,695.58
+
+Discount Amount:
+72,950,643.41
+
+Sales Net Before Returns:
+633,835,052.17
+
+Return Amount:
+3,023,108.77
+
+Net Sales:
+630,811,943.40
+
+Units Sold:
+620,507
+
+Units Returned:
+2,920
+
+Discount Rate:
+10.3215%
+
+Return Rate:
+0.4706%
+
+Average Order Value:
+52,393.02
+
+
+CUSTOMER
+--------
+Customer count:
+3015
+
+Customers with orders:
+2940
+
+Repeat customers:
+2705
+
+Customers without orders:
+75
+
+
+PRODUCT
+-------
+Product count:
+1510
+
+Products with sales:
+1500
+
+Products below reorder:
+192
+
+Products with inventory:
+1332
+
+
+SUPPLIER
+--------
+Supplier count:
+306
+
+Suppliers with products:
+298
+
+Suppliers without products:
+8
+
+
+WAREHOUSE
+---------
+Warehouse count:
+40
+
+Total stock:
+12,830,498
+
+Low-stock items:
+208
+
+
+CARRIER
+-------
+Carrier count:
+6
+
+Total shipping cost:
+1,664,631.31
+
+
+ORDER REVENUE COMPLETENESS
+--------------------------
+Complete orders:
+8068
+
+Partial orders:
+2442
+
+Orders without details:
+1530
+
+
+DELIVERY DATA
+-------------
+Orders with shipment:
+4191
+
+Orders without shipment:
+7849
+
+Delivery anomaly orders:
+67
+
+
+BUSINESS DEFINITIONS
+--------------------
+
+Gross Sales
+-----------
+Sum of gross line amounts for Sale transactions.
+
+Discount Amount
+---------------
+Sum of discount amounts for Sale transactions.
+
+Sales Net Before Returns
+------------------------
+Sales revenue after discounts but before return/reversal transactions.
+
+Return Amount
+-------------
+Absolute monetary magnitude of Return / Reversal transactions.
+
+Net Sales
+---------
+Sales Net Before Returns minus Return Amount.
+
+Discount Rate
+-------------
+Discount Amount divided by Gross Sales.
+
+Return Rate
+-----------
+Returned units divided by sold units.
+
+Average Order Value
+-------------------
+Net Sales divided by order count.
+
+Repeat Customer
+---------------
+Customer with more than one order.
+
+Reorder Gap Units
+-----------------
+Current Stock minus Total Reorder Level.
+
+Stock-to-Reorder Ratio
+----------------------
+Current Stock divided by Total Reorder Level.
+
+Shipping Cost per KM
+--------------------
+Total Shipping Cost divided by Total Distance KM.
+
+Revenue Completeness
+--------------------
+Classifies orders as Complete, Partial or No Order Details
+based on line-level net amount availability.
+
+
+IMPORTANT DATA RULES
+--------------------
+Return / Reversal is treated separately from Sale.
+
+Negative return quantities and amounts are converted to positive
+magnitudes for return reporting while preserving the meaning of
+the source transaction.
+
+No source records were intentionally deleted.
+
+No missing source values were replaced with invented values.
+
+Existing dimension attributes were reused instead of unnecessarily
+rebuilding identical fields.
+
+No arbitrary customer/product/supplier/warehouse scores were created.
+
+Inventory value was not calculated because unit_price is not a
+verified inventory-cost field.
+
+Warehouse utilization was not calculated because stock units and
+capacity units have not been established as physically equivalent.
+
+Advanced analyses will be created later from the reusable feature layer.
+
+
+FINAL STATUS
+------------
+PASS

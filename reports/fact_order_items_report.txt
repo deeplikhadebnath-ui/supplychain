@@ -1,0 +1,83 @@
+
+FACT ORDER ITEMS - ANALYTICAL REPORT
+====================================
+
+GRAIN
+-----
+One row represents one order-detail/product line.
+
+SOURCE ROWS
+-----------
+Order Details rows: 25000
+
+ROWS AFTER JOINS
+----------------
+Rows after Products join + Orders join: 25000
+
+Expected rows: 25000
+Row multiplication: 0
+
+CALCULATED LINE TOTAL
+---------------------
+Rows with enough data for calculation: 22245
+
+Formula:
+unit_price * quantity * (1 - discount_pct / 100)
+
+LINE TOTAL RECONCILIATION
+-------------------------
+Matched: 21328
+Missing source total but calculable: 917
+Cannot calculate: 2755
+Mismatch: 0
+
+TRANSACTION TYPE
+----------------
+Sale rows: 24500
+Return / Reversal rows: 500
+Rows without transaction type: 0
+
+SUPPLIER REFERENCE
+------------------
+Missing Supplier Reference: 0
+Unmatched Supplier Reference: 123
+
+ORDER INFORMATION
+-----------------
+Rows with missing customer/warehouse/order-status information:
+3
+
+PRIMARY KEY VALIDATION
+----------------------
+Duplicate order_detail_id: 0
+Missing order_detail_id: 0
+
+ANALYTICAL COLUMNS
+------------------
+calculated_line_total
+line_total_difference
+line_total_status
+gross_line_amount
+discount_amount
+net_line_amount
+transaction_type
+supplier_status
+
+SOURCE VALUES PRESERVED
+-----------------------
+source_line_total preserves the original line_total value.
+
+No source financial values were overwritten.
+No rows were intentionally deleted.
+
+FEATURE ENGINEERING RULES
+-------------------------
+No customer-level metrics were created.
+No product-level metrics were created.
+No supplier-level metrics were created.
+No inventory metrics were created.
+No shipment metrics were created.
+
+FINAL STATUS
+------------
+PASS WITH WARNINGS

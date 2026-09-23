@@ -1,0 +1,99 @@
+
+CUSTOMER CLEANING REPORT
+========================
+
+Dataset: 04_customers.csv
+
+Rows before cleaning: 3015
+Rows after cleaning: 3015
+
+MISSING VALUES
+--------------
+customer_id        0
+customer_name      0
+email            209
+country            0
+segment          282
+signup_date        0
+
+DUPLICATE ANALYSIS
+------------------
+Exact duplicate rows: 0
+Duplicate customer IDs: 0
+Duplicate customer-name rows: 81
+Duplicate email rows: 33
+
+CUSTOMER ID VALIDATION
+----------------------
+Missing customer IDs: 0
+Duplicate customer IDs: 0
+
+CUSTOMER NAME VALIDATION
+------------------------
+Missing names: 0
+Blank names: 0
+Repeated customer names: 81
+
+EMAIL VALIDATION
+----------------
+Missing emails: 209
+Invalid emails: 0
+Duplicate email rows: 33
+
+COUNTRY STANDARDIZATION
+-----------------------
+IND -> India
+india -> India
+DE -> Germany
+germany -> Germany
+UK -> United Kingdom
+U.K. -> United Kingdom
+england -> United Kingdom
+USA -> United States
+U.S.A. -> United States
+US -> United States
+us -> United States
+United states -> United States
+
+SEGMENT VALIDATION
+------------------
+Missing segments: 282
+Invalid segments: 0
+
+Allowed values:
+Retail
+Wholesale
+Corporate
+Online
+
+SIGNUP DATE VALIDATION
+----------------------
+Missing signup dates before parsing: 0
+Unparseable signup dates: 0
+Future signup dates: 0
+
+Date parsing method:
+pd.to_datetime(format="mixed", dayfirst=True, errors="coerce")
+
+Final date format:
+YYYY-MM-DD
+
+RECORD CHANGES
+--------------
+Records removed: 0
+Missing values were not artificially filled.
+Missing segments were not replaced.
+Missing emails were not invented.
+Repeated names/emails were not automatically deleted.
+
+FINAL VALIDATION
+----------------
+Final duplicate customer IDs: 0
+Final missing customer IDs: 0
+Final invalid emails: 0
+Final invalid segments: 0
+Final future signup dates: 0
+
+FINAL STATUS
+------------
+PASS WITH WARNINGS

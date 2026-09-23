@@ -1,0 +1,208 @@
+SUPPLY CHAIN INTELLIGENCE
+BUSINESS SQL ANALYSIS REPORT
+==========================================
+
+Database:
+C:\supply_chain_intelligence\database\supply_chain_intelligence.db
+
+SQL source:
+C:\supply_chain_intelligence\src\sql\business_queries_with_questions.sql
+
+Queries detected: 25
+Queries passed: 23
+Queries failed: 2
+
+QUERY VALIDATION
+----------------
+
+Query 01: 01. EXECUTIVE KPI SNAPSHOT
+Status: PASS
+Rows returned: 1
+
+Query 02: 02. CUSTOMER / PRODUCT / SUPPLY CHAIN KPI SNAPSHOT
+Status: PASS
+Rows returned: 1
+
+Query 03: 03. MONTHLY COMMERCIAL PERFORMANCE
+Status: PASS
+Rows returned: 77
+
+Query 04: 04. YEAR-OVER-YEAR / PERIOD COMPARISON BASE
+Status: PASS
+Rows returned: 77
+
+Query 05: 05. CATEGORY COMMERCIAL PERFORMANCE
+Status: PASS
+Rows returned: 10
+
+Query 06: 06. TOP PRODUCTS BY NET SALES
+Status: PASS
+Rows returned: 20
+
+Query 07: 07. PRODUCT REVENUE CONCENTRATION / PARETO BASE
+Status: PASS
+Rows returned: 1450
+
+Query 08: 08. HIGH-SALES / HIGH-RETURN PRODUCTS
+Status: PASS
+Rows returned: 1450
+
+Query 09: 09. PRODUCTS WITH COMMERCIAL AND INVENTORY EXPOSURE
+Status: PASS
+Rows returned: 184
+
+Query 10: 10. CUSTOMER SEGMENT PERFORMANCE
+Status: PASS
+Rows returned: 5
+
+Query 11: 11. REPEAT CUSTOMER ANALYSIS
+Status: PASS
+Rows returned: 2
+
+Query 12: 12. HIGH-VALUE / LOW-RECENCY CUSTOMER OPPORTUNITY
+Status: PASS
+Rows returned: 325
+
+Query 13: 13. CUSTOMER VALUE DISTRIBUTION
+Status: PASS
+Rows returned: 4
+
+Query 14: 14. INVENTORY REORDER EXPOSURE
+Status: PASS
+Rows returned: 10
+
+Query 15: 15. WAREHOUSE EXPOSURE
+Status: FAIL
+Rows returned: 0
+Error: Execution failed on sql 'SELECT
+    warehouse_id,
+    warehouse_name,
+    location,
+    total_stock,
+    unique_products,
+    low_stock_items,
+    order_count,
+    ROUND(net_sales, 2) AS net_sales,
+    ROUND(stock_share, 4) AS stock_share,
+    ROUND(sales_share, 4) AS sales_share
+FROM warehouse_features
+ORDER BY total_stock DESC;
+
+
+-- ============================================================': no such column: unique_products
+
+Query 16: 16. WAREHOUSE STOCK VS COMMERCIAL ACTIVITY
+Status: PASS
+Rows returned: 40
+
+Query 17: 17. SUPPLIER CONTRIBUTION
+Status: PASS
+Rows returned: 306
+
+Query 18: 18. SUPPLIER CONCENTRATION / PARETO BASE
+Status: PASS
+Rows returned: 297
+
+Query 19: 19. CARRIER COST VS SERVICE
+Status: PASS
+Rows returned: 6
+
+Query 20: 20. SHIPPING COST VS DISTANCE
+Status: PASS
+Rows returned: 4659
+
+Query 21: 21. DELIVERY PERFORMANCE TREND
+Status: PASS
+Rows returned: 76
+
+Query 22: 22. ORDER LIFECYCLE ANOMALIES
+Status: PASS
+Rows returned: 195
+
+Query 23: 23. ORDERS WITH MISSING / PARTIAL REVENUE DETAIL
+Status: PASS
+Rows returned: 3
+
+Query 24: 24. PRODUCT / INVENTORY OPPORTUNITY MATRIX
+Status: PASS
+Rows returned: 4
+
+Query 25: 25. ACTION CENTER BASE
+Status: FAIL
+Rows returned: 0
+Error: Execution failed on sql 'SELECT
+    product_id,
+    product_name,
+    category,
+    ROUND(net_sales, 2) AS net_sales,
+    current_stock,
+    reorder_level_total,
+    below_reorder_flag,
+    ROUND(return_rate, 4) AS return_rate,
+    ROUND(revenue_share, 4) AS revenue_share,
+    CASE
+        WHEN below_reorder_flag = 1
+         AND net_sales > 0
+         AND return_rate >=
+             (SELECT AVG(return_rate)
+              FROM product_features
+              WHERE return_rate IS NOT NULL)
+        THEN 'Investigate: Commercial + Inventory + Returns'
+
+        WHEN below_reorder_flag = 1
+         AND net_sales > 0
+        THEN 'Investigate: Commercial + Inventory'
+
+        WHEN net_sales > 0
+         AND return_rate >=
+             (SELECT AVG(return_rate)
+              FROM product_features
+              WHERE return_rate IS NOT NULL)
+        THEN 'Investigate: Commercial + Returns'
+
+        ELSE 'Monitor'
+    END AS action_area
+FROM product_features
+ORDER BY
+    CASE
+        WHEN below_reorder_flag = 1
+         AND net_sales > 0
+         AND return_rate >=
+             (SELECT AVG(return_rate)
+              FROM product_features
+              WHERE return_rate IS NOT NULL)
+        THEN 1
+        WHEN below_reorder_flag = 1
+         AND net_sales > 0
+        THEN 2
+        WHEN net_sales > 0
+         AND return_rate >=
+             (SELECT AVG(return_rate)
+              FROM product_features
+              WHERE return_rate IS NOT NULL)
+        THEN 3
+        ELSE 4
+    END,
+    net_sales DESC;
+
+
+-- ============================================================
+-- END
+-- ============================================================
+
+```': You can only execute one statement at a time.
+
+INTERPRETATION WORKFLOW
+-----------------------
+1. Validate SQL execution.
+2. Review actual result tables.
+3. Check important totals against the feature layer.
+4. Identify meaningful business findings.
+5. Decide which findings deserve visualization.
+6. Add evidence-based business interpretation.
+7. Define investigation/action where supported.
+
+IMPORTANT
+---------
+A query result is not automatically a business conclusion.
+Results must be interpreted in context and validated against the underlying analytical model.

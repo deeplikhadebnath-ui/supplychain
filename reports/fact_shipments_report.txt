@@ -1,0 +1,183 @@
+
+FACT SHIPMENTS - ANALYTICAL REPORT
+==================================
+
+GRAIN
+-----
+One row represents one shipment.
+
+SOURCE TABLES
+-------------
+Shipments
+Orders
+
+ROW COUNTS
+----------
+Shipments before transformation: 5160
+Rows after Orders join: 5160
+Final fact_shipments rows: 5160
+Expected final rows: 5160
+
+
+SHIPMENT ID VALIDATION
+----------------------
+
+Missing shipment IDs: 0
+Duplicate shipment IDs: 0
+
+
+ORDER REFERENCE VALIDATION
+--------------------------
+
+Matched order references: 5160
+Missing order references: 0
+Unmatched order references: 0
+
+
+CARRIER
+-------
+
+Carrier values:
+
+carrier
+FedEx          1528
+DHL             742
+Maersk          736
+UPS             734
+DHL Express     711
+Blue Dart       709
+
+DHL and DHL Express were kept separate.
+
+
+SHIPMENT DATE
+-------------
+
+Missing shipment dates: 588
+
+Shipment date status:
+
+shipment_date_status
+Valid                    4572
+Missing Shipment Date     588
+
+
+DELIVERY DATE
+-------------
+
+Missing delivery dates: 882
+
+Delivery date status:
+
+delivery_date_status
+Valid                       4193
+Missing Delivery Date        882
+Delivery Before Shipment      85
+
+
+DATE RELATIONSHIP
+-----------------
+
+Delivery before shipment: 85
+Same-day delivery: 0
+Delivery after shipment: 4193
+
+Delivery-before-shipment records were preserved and flagged.
+
+
+SHIPPING COST
+-------------
+
+Missing: 262
+Zero: 0
+Negative: 0
+Positive: 4898
+
+Minimum: 3.0
+Maximum: 835.42
+
+
+DISTANCE
+--------
+
+Missing: 253
+Zero: 0
+Negative: 0
+Positive: 4907
+
+Minimum: 5.6
+Maximum: 11999.3
+
+
+JOIN VALIDATION
+---------------
+
+Rows before Orders join: 5160
+Rows after Orders join: 5160
+Row multiplication: 0
+
+Expected:
+    5160 -> 5160
+
+
+ANALYTICAL COLUMNS
+------------------
+
+shipment_id
+order_id
+carrier
+shipment_date
+delivery_date
+shipping_cost
+distance_km
+order_status
+order_reference_status
+shipment_date_status
+delivery_date_status
+
+
+SOURCE VALUES PRESERVED
+-----------------------
+
+No source shipment values were overwritten.
+No missing shipping costs were invented.
+No missing distances were invented.
+No shipment records were intentionally deleted.
+
+
+FEATURE ENGINEERING
+-------------------
+
+No delivery_days created.
+No shipping_cost_per_km created.
+No carrier performance score created.
+No logistics risk score created.
+No shipping efficiency score created.
+No on-time delivery flag created.
+
+
+FINAL VALIDATION
+----------------
+
+Final rows = source rows:
+True
+
+Final duplicate shipment IDs:
+0
+
+Final missing shipment IDs:
+0
+
+Final unmatched order references:
+0
+
+Final negative shipping costs:
+0
+
+Final negative distances:
+0
+
+
+FINAL STATUS
+------------
+PASS WITH WARNINGS

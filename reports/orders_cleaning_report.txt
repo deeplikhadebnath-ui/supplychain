@@ -1,0 +1,93 @@
+ORDERS CLEANING REPORT
+=====================
+
+Rows before cleaning: 12040
+Rows after cleaning: 12040
+
+ORIGINAL COLUMNS
+----------------
+order_id, customer_id, warehouse_id, order_date, ship_date, order_status, order_total, Column1
+
+FINAL COLUMNS
+-------------
+order_id, customer_id, warehouse_id, order_date, ship_date, order_status, order_total
+
+STRUCTURAL COLUMNS REMOVED
+--------------------------
+Column1, Unnamed: 8, Unnamed: 9, Unnamed: 10, Unnamed: 11
+
+MISSING VALUES
+--------------
+order_id           0
+customer_id        0
+warehouse_id       0
+order_date         0
+ship_date        629
+order_status       0
+order_total     1922
+
+ORDER ID VALIDATION
+-------------------
+Missing order IDs: 0
+Duplicate order IDs: 0
+
+CUSTOMER FK VALIDATION
+----------------------
+Unmatched customer references: 1
+ order_id  customer_id
+  5007321       999008
+
+WAREHOUSE FK VALIDATION
+-----------------------
+Unmatched warehouse references: 0
+
+ORDER STATUS
+------------
+Standardization: strip whitespace + title case
+Unexpected statuses: 0
+
+DATE VALIDATION
+---------------
+Missing order dates: 0
+Missing ship dates: 629
+Unparseable order dates: 0
+Unparseable ship dates: 0
+Ship date before order date: 195
+Future order dates: 8
+Future ship dates: 9
+
+ORDER TOTAL VALIDATION
+----------------------
+Missing order totals: 1922
+Zero order totals: 122
+Negative order totals: 102
+
+ORDERS WITHOUT ORDER DETAILS
+----------------------------
+Orders without details: 1530
+
+FINAL VALIDATION
+----------------
+Final duplicate order IDs: 0
+Final missing order IDs: 0
+Invalid final statuses: 0
+
+RECORD CHANGES
+--------------
+Records removed: 0
+
+UNRESOLVED ISSUES
+-----------------
+Missing order totals: 1922
+Zero order totals: 122
+Negative order totals: 102
+Ship dates before order dates: 195
+Future order dates: 8
+Future ship dates: 9
+Orders without Order Details: 1530
+Unmatched customers: 1
+Unmatched warehouses: 0
+
+FINAL STATUS
+------------
+PASS WITH WARNINGS

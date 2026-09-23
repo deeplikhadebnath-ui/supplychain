@@ -1,0 +1,66 @@
+SUPPLY CHAIN INTELLIGENCE
+DATABASE BUILD REPORT
+==========================================
+
+Database: C:\supply_chain_intelligence\database\supply_chain_intelligence.db
+
+Tables loaded: 16
+Business views created: 10
+
+TABLES
+------
+dim_customer: 3015 rows
+dim_product: 1510 rows
+dim_supplier: 306 rows
+dim_warehouse: 40 rows
+fact_orders: 12040 rows
+fact_order_items: 25000 rows
+fact_shipments: 5160 rows
+fact_inventory: 3005 rows
+order_features: 12040 rows
+customer_features: 3015 rows
+product_features: 1510 rows
+supplier_features: 306 rows
+warehouse_features: 40 rows
+carrier_features: 6 rows
+business_daily_metrics: 1957 rows
+dim_date: 2494 rows
+
+CORE MODEL
+----------
+Dimensions:
+dim_customer
+dim_product
+dim_supplier
+dim_warehouse
+dim_date
+
+Facts:
+fact_orders
+fact_order_items
+fact_shipments
+fact_inventory
+
+Business Features:
+order_features
+customer_features
+product_features
+supplier_features
+warehouse_features
+carrier_features
+business_daily_metrics
+
+Business Views:
+vw_executive_kpis
+vw_monthly_performance
+vw_product_performance
+vw_customer_performance
+vw_inventory_exposure
+vw_supplier_performance
+vw_warehouse_performance
+vw_carrier_performance
+vw_revenue_quality
+vw_action_center
+
+CSV-to-DB and view validation:
+PASS

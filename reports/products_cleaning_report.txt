@@ -1,0 +1,116 @@
+PRODUCT CLEANING REPORT
+=======================
+
+Rows before cleaning: 1510
+Rows after cleaning: 1510
+
+Original columns:
+product_id, product_name, category, supplier_id, unit_price, weight_kg, is_active
+
+Final columns:
+product_id, product_name, category, supplier_id, unit_price, weight_kg, is_active
+
+MISSING VALUES
+--------------
+product_id       0
+product_name     0
+category         0
+supplier_id      0
+unit_price      50
+weight_kg       77
+is_active       40
+
+DUPLICATE ANALYSIS
+------------------
+Exact duplicate rows: 0
+Duplicate product IDs: 0
+Duplicate product-name rows: 24
+Exact descriptive-duplicate rows: 20
+
+Exact descriptive duplicates:
+ product_id                              product_name         category  supplier_id  unit_price  weight_kg is_active
+      21277            Advanced intermediate matrices        Furniture         1229     1097.49      30.47         N
+      21503            Advanced intermediate matrices        Furniture         1229     1097.49      30.47         N
+      20364  Business-focused 3rdgeneration help-desk             Toys         1116      380.97       7.07         Y
+      21506  Business-focused 3rdgeneration help-desk             Toys         1116      380.97       7.07         Y
+      20070        Compatible national data-warehouse  Pharmaceuticals         1185      627.47      51.93         Y
+      21504        Compatible national data-warehouse  Pharmaceuticals         1185      627.47      51.93         Y
+      21437               Intuitive modular interface  Pharmaceuticals         1164     1212.77      42.93         Y
+      21502               Intuitive modular interface  Pharmaceuticals         1164     1212.77      42.93         Y
+      20780          Networked content-based leverage        Groceries         1276      383.69      37.12         N
+      21508          Networked content-based leverage        Groceries         1276      383.69      37.12         N
+      20273          Networked methodical flexibility        Groceries         1123     1638.24      22.11         N
+      21505          Networked methodical flexibility        Groceries         1123     1638.24      22.11         N
+      21477         Object-based interactive software          Apparel         1209     1720.13      51.53         Y
+      21507         Object-based interactive software          Apparel         1209     1720.13      51.53         Y
+      20720              Phased encompassing paradigm        Furniture         1174     2119.14       1.77         Y
+      21501              Phased encompassing paradigm        Furniture         1174     2119.14       1.77         Y
+      20488                Virtual local secured line   Sporting Goods         1144      342.98      13.74         Y
+      21509                Virtual local secured line   Sporting Goods         1144      342.98      13.74         Y
+      21115 Vision-oriented system-worthy utilization Automotive Parts         1050      548.89      35.80         Y
+      21510 Vision-oriented system-worthy utilization Automotive Parts         1050      548.89      35.80         Y
+
+CATEGORY VALIDATION
+-------------------
+Unexpected categories: 0
+
+SUPPLIER FK VALIDATION
+----------------------
+Unmatched supplier references: 7
+ product_id  supplier_id
+      20119         9026
+      20296         9049
+      20462         9035
+      20616         9033
+      20949         9008
+      21152         9024
+      21450         9015
+
+UNIT PRICE VALIDATION
+---------------------
+Missing unit prices: 50
+Zero unit prices: 0
+Negative unit prices: 0
+
+WEIGHT VALIDATION
+-----------------
+Missing weights: 77
+Zero weights: 0
+Negative weights: 0
+
+IS_ACTIVE STANDARDIZATION
+-------------------------
+Mapping used:
+Y / y / 1 -> Y
+N / n / 0 -> N
+Missing -> NULL
+
+Final values:
+is_active
+N      742
+Y      728
+NaN     40
+
+RECORD CHANGES
+--------------
+Records modified: 172
+Records removed: 0
+Records flagged: 31
+
+FINAL VALIDATION
+----------------
+Final duplicate product IDs: 0
+Final missing product names: 0
+Final missing categories: 0
+Invalid is_active values: 0
+
+UNRESOLVED ISSUES
+-----------------
+Missing unit prices: 50
+Missing weights: 77
+Unmatched supplier references: 7
+Duplicate product-name rows requiring review: 24
+
+FINAL STATUS
+------------
+PASS WITH WARNINGS
